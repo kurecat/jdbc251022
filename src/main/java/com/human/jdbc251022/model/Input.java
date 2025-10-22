@@ -1,13 +1,20 @@
 package com.human.jdbc251022.model;
 
 import com.human.jdbc251022.dao.MemberDao;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
+@Component
 
 public class Input {
-    public static final Scanner sc = new Scanner(System.in);
-    MemberDao memberDao;
+    private final Scanner sc;
+    private final MemberDao memberDao;
+
+    public Input(MemberDao memberDao) {
+        this.memberDao = memberDao;
+        this.sc = new Scanner(System.in); // Scanner는 여기서 직접 생성
+    }
 
     public void infoMember() {
         List<Member> memberList = memberDao.memberList();

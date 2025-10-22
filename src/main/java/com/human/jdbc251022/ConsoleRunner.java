@@ -2,12 +2,10 @@ package com.human.jdbc251022;
 
 import com.human.jdbc251022.dao.MemberDao;
 import com.human.jdbc251022.model.Input;
-import com.human.jdbc251022.model.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Scanner;
 
 // 콘솔 입력을 만들기 위한 파일
