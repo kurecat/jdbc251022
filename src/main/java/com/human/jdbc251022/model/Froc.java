@@ -1,5 +1,7 @@
 package com.human.jdbc251022.model;
-
+import lombok.*;
+import java.time.LocalDateTime;
+@Getter @Setter @AllArgsConstructor @NoArgsConstructor
 
 // ---- [4] 설비 공정 조회 ----
 public class Froc {

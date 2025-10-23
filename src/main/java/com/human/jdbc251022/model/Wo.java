@@ -1,5 +1,8 @@
 package com.human.jdbc251022.model;
+import lombok.*;
 import java.time.LocalDateTime;
+@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+
 
 // ---- 작업지시조회 ----
 public class Wo {

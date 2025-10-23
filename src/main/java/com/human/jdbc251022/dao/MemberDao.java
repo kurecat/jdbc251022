@@ -175,8 +175,8 @@ public class MemberDao {
                     rs.getInt("LOGNO"),
                     rs.getString("SEQNO"),
                     rs.getString("PARAMNO"),
-                    rs.getDouble("PARAM_VALUE"),
-                    rs.getTimestamp("LOG_TIME").toLocalDateTime()
+                    rs.getDouble("PARAMVALUE"),
+                    rs.getTimestamp("LOGTIME").toLocalDateTime()
             );
         }
     }
@@ -202,7 +202,7 @@ public class MemberDao {
 
     // 설비 및 공정 조회 - [4] 설비 공정 조회
     public List<Froc> FrocList() {
-        String query = "SELECT * FROM MES_FROC_TABLE";
+        String query = "SELECT * FROM MES_PROC_TABLE";
         return jdbcTemplate.query(query, new FrocRowMapper());
     }
 
