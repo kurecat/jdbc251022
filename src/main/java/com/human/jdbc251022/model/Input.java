@@ -29,7 +29,8 @@ public class Input {
             sc.nextLine();
             switch (c) {
                 case 1:
-
+                    regDept();
+                    break;
                 case 2:
                     regEmp();
                     break;
@@ -37,16 +38,20 @@ public class Input {
                     regProd();
                     break;
                 case 4:
+
                 case 5:
+
                 case 6:
+
                 case 7:
+
                 case 8:
+
                 case 9:System.exit(0);
                 case 0:return;
             }
         }
     }
-
 
     public void checkTable() { // 조회
         while (true) {
@@ -95,6 +100,38 @@ public class Input {
         }
     }
 
+    public void updateTable() {
+        while (true){
+            System.out.println("수정할 메뉴를 고르세요");
+            System.out.println("[1]부서 [2]사원 [3]제품 [4]작업실적 [5]작업지시 [6]설비 및 공정 조회 [7]재고상태 [8]출고기록 [9]종료 [0]뒤로가기");
+            System.out.print("입력 : ");
+            int c = sc.nextInt();
+
+            switch (c){
+                case 1:
+
+                case 2:
+
+                case 3:
+
+                case 4:
+
+                case 5:
+
+                case 6:
+
+                case 7:
+
+                case 8:
+
+                case 9:System.exit(0);
+                case 0:return;
+            }
+        }
+
+    }
+
+    // 설비조회
     public void SeqTotalList() {
         System.out.println("조회할 설비 및 공정을 선택해 주세요");
         System.out.println("[1]SEQ [2]FDCLOG [3]FDCFAULT [4]FROC");
@@ -124,34 +161,40 @@ public class Input {
     // 부서조회
     public void DeptTotalList() {
         System.out.println("조회할 부서를 선택해 주세요");
-        System.out.println("[1]총괄관리부 [2]생산관리부 [3]품질관리부 [4]설비관리부 [5]자재관리부 [6]물류관리부");
+        System.out.println("[1]부서전체조회 [2]총괄관리부 [3]생산관리부 [4]품질관리부 [5]설비관리부 [6]자재관리부 [7]물류관리부 [8]뒤로가기");
         System.out.print("입력 : ");
         int deptC = sc.nextInt();
         switch (deptC) {
-            case 1: // 총괄관리부
+            case 1:
+                List<iDept> iDeptList = memberDao.iDeptList();
+                for (iDept iDept : iDeptList) System.out.print(iDept);
+                break;
+            case 2:
                 List<Dept> deptList1 = memberDao.DeptList1();
                 for (Dept dept : deptList1) System.out.println(dept);
                 break;
-            case 2: // 생산관리부
+            case 3:
                 List<Dept> deptList2 = memberDao.DeptList2();
                 for (Dept dept : deptList2) System.out.println(dept);
                 break;
-            case 3: // 품질관리부
+            case 4:
                 List<Dept> deptList3 = memberDao.DeptList3();
                 for (Dept dept : deptList3) System.out.println(dept);
                 break;
-            case 4: // 설비관리부
+            case 5:
                 List<Dept> deptList4 = memberDao.DeptList4();
                 for (Dept dept : deptList4) System.out.println(dept);
                 break;
-            case 5: // 자재관리부
+            case 6:
                 List<Dept> deptList5 = memberDao.DeptList5();
                 for (Dept dept : deptList5) System.out.println(dept);
                 break;
-            case 6: // 물류관리부
+            case 7:
                 List<Dept> deptList6 = memberDao.DeptList6();
                 for (Dept dept : deptList6) System.out.println(dept);
                 break;
+            case 8:
+                return;
             default:
                 System.out.println("다시 선택해 주세요");
         }
@@ -160,6 +203,9 @@ public class Input {
     // 사원 등록
     public void regEmp() {
         System.out.println("======= 사원 등록 =======");
+        System.out.print("사원번호(4자리수): ");
+        int empno = sc.nextInt();
+
         System.out.print("부서번호(4자리수): ");
         int deptno = sc.nextInt();
         sc.nextLine();
@@ -170,30 +216,14 @@ public class Input {
         System.out.print("직책: ");
         String job = sc.nextLine();
 
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//        LocalDate hiredate = null;
-//        while (hiredate == null) { // 올바른 형식이 입력될 때까지 반복
-//            System.out.print("입사일 (DD/MM/YY): ");
-//            String dateString = sc.nextLine(); // 1. 날짜를 문자열로 입력받음
-//
-//            try {
-//                // 2. 입력받은 문자열을 LocalDate 객체로 변환(파싱)
-//                hiredate = LocalDate.parse(dateString, formatter);
-//            } catch (DateTimeParseException e) {
-//                System.out.println("날짜 형식이 잘못되었습니다. dd-MM-yy 형식으로 다시 입력해주세요.");
-//            }
-//        }
-
         System.out.print("상사번호: ");
         int mgr = sc.nextInt();
         sc.nextLine();
 
-        Emp emp = new Emp(deptno, ename, job, mgr);
+        Emp emp = new Emp(empno ,deptno, ename, job, mgr);
 
-//        boolean inSuccess =  memberDao.insertEmp(emp);
-        memberDao.insertEmp(emp);
-        System.out.println(5);
-//        System.out.println("사원 등록 : " + (inSuccess ? "성공" : "실패"));
+        boolean inSuccess =  memberDao.insertEmp(emp);
+        System.out.println("사원 등록 : " + (inSuccess ? "성공" : "실패"));
     }
 
     // 제품 등록
@@ -218,59 +248,24 @@ public class Input {
         boolean inSuccess =  memberDao.insertProd(prod);
         System.out.println("제품 등록 : " + (inSuccess ? "성공" : "실패"));
     }
+
+    // 부서 등록
+    public void regDept() {
+        System.out.println("======= 부서 등록 =======");
+        System.out.print("부서번호(4자리수): ");
+        int deptno = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("부서이름: ");
+        String deptname = sc.nextLine();
+
+        iDept idetp = new iDept(deptno, deptname);
+        boolean inSuccess = memberDao.insertDept(idetp);
+        System.out.println("제품 등록 : " + (inSuccess ? "성공" : "실패"));
+    }
+
+    public void regPerf() {
+        System.out.println("======= 작업실적 등록 =======");
+        System.out.print("부서번호(4자리수): ");
+    }
 }
-
-//    public void regMember() { // 회원 등록
-//        Member member = new Member();
-//        System.out.println("======= 회원 등록 =======");
-//        System.out.print("이메일 : ");
-//        String email = sc.nextLine();
-//
-//        System.out.print("비밀번호 : ");
-//        String pwd = sc.nextLine();
-//
-//        System.out.print("이름 : ");
-//        String name = sc.nextLine();
-//        new Member(email, pwd, name, null);
-//
-//        boolean inSuccess =  memberDao.insertMember(member);
-//        System.out.println("회원 가입 : " + (inSuccess ? "성공" : "실패"));
-//    }
-
-//    public void processUpdateMember(){ // 회원 정보 수정
-//        System.out.println("======= 회원 정보 수정 =======");
-//        System.out.println("회원님의 이메일을 입력해 주세요");
-//        System.out.print("입력 : ");
-//        String email = sc.nextLine();
-//
-//
-//        System.out.println("수정하실 정보를 선택해 주세요 [1]비밀번호 [2]이름");
-//        System.out.print("입력 : ");
-//        int choice = sc.nextInt();
-//        sc.nextLine();
-//
-//        Member member = new Member();
-//        member.setEmail(email);
-//
-//        boolean isSuccess = false;
-//
-//        switch (choice){
-//            case 1:
-//                System.out.print("새 비밀번호 입력 : ");
-//                String newPwd = sc.nextLine();
-//                member.setPwd(newPwd);
-//                isSuccess = memberDao.updatePwdMember(member);
-//                break;
-//            case 2:
-//                System.out.print("새 이름 입력 : ");
-//                String newName = sc.nextLine();
-//                member.setName(newName);
-//                isSuccess = memberDao.updateNameMember(member);
-//                break;
-//            default:
-//                System.out.println("잘못된 선택입니다. 수정을 취소합니다.");
-//                return;
-//        }
-//
-//        System.out.println("회원 정보 수정 : " + (isSuccess ? "성공" : "실패"));
-//    }

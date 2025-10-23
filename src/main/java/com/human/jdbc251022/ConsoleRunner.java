@@ -1,6 +1,5 @@
 package com.human.jdbc251022;
 
-import com.human.jdbc251022.dao.MemberDao;
 import com.human.jdbc251022.model.Input;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -13,12 +12,11 @@ import java.util.Scanner;
 @RequiredArgsConstructor
 public class ConsoleRunner implements CommandLineRunner {
     private final Scanner sc = new Scanner(System.in);
-    private final MemberDao memberDao;
     private final Input input;
     @Override
     public void run(String... args) throws Exception {
         while (true){
-            System.out.println("===== MESDB =====");
+            System.out.println("===== MES DB =====");
             System.out.println("[1]조회 [2]등록 [3]수정 [4]종료");
             System.out.print("입력 : ");
             int sel = sc.nextInt();
@@ -29,11 +27,10 @@ public class ConsoleRunner implements CommandLineRunner {
                 case 2:
                     input.insertTable(); break;
                 case 3:
-                    break;
+                    input.updateTable();break;
                 case 4:
-                    break;
-                case 0:
-                    System.out.println("프로그램을 종료합니다."); return;
+                    System.exit(0);
+                    System.out.println("프로그램을 종료합니다.");
                 default:System.out.println("다시 입력해 주세요");
 
             }

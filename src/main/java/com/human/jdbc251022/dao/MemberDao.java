@@ -36,6 +36,11 @@ public class MemberDao {
             );
         }
     }
+    // 전체부서조회
+    public List<iDept> iDeptList(){
+        String query = "SELECT * FROM MES_DEPT_TABLE";
+        return jdbcTemplate.query(query, new ideptRowMapper());
+    }
 
     // 부서조회 - 총괄관리부
     public List<Dept> DeptList1() {
@@ -66,6 +71,16 @@ public class MemberDao {
     public List<Dept> DeptList6() {
         String query = "SELECT * FROM MES_EMP_TABLE WHERE DEPTNO = 6006";
         return jdbcTemplate.query(query, new deptRowMapper());
+    }
+
+    private static class ideptRowMapper implements RowMapper<iDept> {
+        @Override
+        public iDept mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new iDept(
+                    rs.getInt("DEPTNO"),
+                    rs.getString("DEPTNAME")
+            );
+        }
     }
 
     private static class deptRowMapper implements RowMapper<Dept> {
@@ -256,50 +271,180 @@ public class MemberDao {
         }
     }
 
-    // 제품 삭제
-//    public boolean deleteProd(Prod prod) {
-//        int result = 0;
-//        String query = "DELETE FROM MES_PROD_TABLE WHERE PRODNO = ?";
-//        try {
-//            result = jdbcTemplate.update(query, prod.getProdno());
-//        } catch (Exception e) {
-//            log.error("제품 정보 삭제 실패 : {}", e.getMessage());
-//        }
-//        return result > 0;
-//    }
-
-    // 사원 등록
-    public void insertEmp(Emp emp) {
-        System.out.println(1);
+    // 부서 등록
+    public boolean insertDept(iDept idept){
         int result = 0;
-        String query = "INSERT INTO MES_EMP_TABLE(EMPNO, DEPTNO, ENAME, JOB, HIREDATE, MGR) VALUES((select max(empno) + 1 from mes_emp_table), ?, ?, ?, SYSDATE, ?)";
+        String query = "INSERT INTO MES_DEPT_TABLE(DEPTNO, DEPTNAME) VALUES(?, ?)";
         try {
-            System.out.println(2);
-            System.out.println(emp.getDeptno());
-            jdbcTemplate.update(query, emp.getDeptno(), emp.getEname(), emp.getJob(), emp.getMgr());
-            System.out.println(result);
-            System.out.println(3);
+            result = jdbcTemplate.update(query, idept.getDeptno(), idept.getDeptname());
         } catch (Exception e) {
-            log.error("사원 정보 추가 실패 : {}", e.getMessage());
+            log.error("부서 정보 등록 실패");
         }
-        System.out.println(4);
-//        return result > 0;
+        return result > 0;
     }
 
+    // 사원 등록
+    public boolean insertEmp(Emp emp) {
+        int result = 0;
+        String query = "INSERT INTO MES_EMP_TABLE(EMPNO, DEPTNO, ENAME, \"JOB\", HIREDATE, MGR) VALUES(?, ?, ?, ?, SYSDATE, ?)";
+        try {
+            result = jdbcTemplate.update(query,emp.getEmpno(), emp.getDeptno(), emp.getEmpno(), emp.getJob(), emp.getMgr());
+        } catch (Exception e) {
+            log.error("사원 정보 등록 실패 : {}", e.getMessage());
+        }
+        return result > 0;
+    }
 
     //제품 등록
     public boolean insertProd(Prod prod) {
-        System.out.println(1);
         int result = 0;
         String query = "INSERT INTO MES_PROD_TABLE(PRODNO, PRODNAME, SPCE, UNIT) VALUES(?, ?, ?, ?)";
         try {
-            result = jdbcTemplate.update(query, prod.getProdno(),
-                    prod.getProdname(), prod.getSpce(), prod.getUnit());
+            result = jdbcTemplate.update(query, prod.getProdno(), prod.getProdname(), prod.getSpce(), prod.getUnit());
         } catch (Exception e) {
             log.error("회원 정보 추가 실패 : {}", e.getMessage());
         }
         return result > 0;
     }
+
+    // 작업실적등록
+    public boolean insertPerf(Perf perf) {
+        int result = 0;
+        String query = "INSERT INTO MES_PERF_TABLE(PERFNO, PROCNO, EMPNO, WONO, SEQNO, QTY, QTYDEFECT, PERFDATE, FARA, NOTE) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            result = jdbcTemplate.update(query, perf.getPerfno(), perf.getProcno(), perf.getEmpno(), perf.getWono(), perf.getSeqno(), perf.getQty(), perf.getQtydefect(), perf.getPerfdate(), perf.getFara(), perf.getNote());
+        } catch (Exception e) {
+            log.error("작업 실적 등록 실패 : {}", e.getMessage());
+        }
+        return result > 0;
+    }
+
+    // 작업지시등록
+    public boolean insertWo(Wo wo) {
+        int result = 0;
+        String query = "INSERT INTO MES_WO_TABLE(WONO, PRODNO, PROCNO, ORDERDATE, DUEDATE, QTY, NOTE) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        try {
+            result = jdbcTemplate.update(query, wo.getWono(), wo.getProdno(), wo.getProcno(), wo.getOrderdate(), wo.getDuedate(), wo.getQty(), wo.getNote());
+        } catch (Exception e) {
+            log.error("작업 지시 등록 실패 : {}", e.getMessage());
+        }
+        return result > 0;
+    }
+
+    // 설비 및 공정 등록 - [1] SEQ 설비상세등록
+    public boolean insertSeq(Seq seq) {
+        int result = 0;
+        String query = "INSERT INTO MES_SEQ_TABLE(SEQNO, SEQNAME, SEQOR, NOTE) VALUES(?, ?, ?, ?)";
+        try {
+            result = jdbcTemplate.update(query, seq.getSeqno(), seq.getSeqname(), seq.getSeqor(), seq.getNote());
+        } catch (Exception e) {
+            log.error("설비 상세 등록 실패 : {}", e.getMessage());
+        }
+        return result > 0;
+    }
+
+    // 설비 및 공정 등록 - [2] FDCLOG 설비로그등록
+    public boolean insertFdclog(Fdclog fdclog) {
+        int result = 0;
+        String query = "INSERT INTO MES_FDCLOG_TABLE(LOGNO, SEQNO, PARAMNO, PARAMVALUE, LOGTIME) VALUES(?, ?, ?, ?, ?)";
+        try {
+            result = jdbcTemplate.update(query, fdclog.getLogno(), fdclog.getSeqno(), fdclog.getParamno(), fdclog.getParamvalue(), fdclog.getLogtime());
+        } catch (Exception e) {
+            log.error("설비 로그 등록 실패 : {}", e.getMessage());
+        }
+        return result > 0;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // 작업 실적 수정
+    public boolean updatePerf(Perf perf) {
+
+        String sql = "UPDATE MES_PERF_TABLE SET " +
+                "PROCNO = ?, EMPNO = ?, WONO = ?, SEQNO = ?, QTY = ?, " +
+                "QTYDEFECT = ?, PERFDATE = ?, FARA = ?, NOTE = ? " +
+                "WHERE PERFNO = ?";
+
+        int result = 0;
+        try {
+            // update 결과를 result 변수에 저장
+            result = jdbcTemplate.update(sql,
+                    // SQL ? 순서와 파라미터 순서 일치 (총 10개)
+                    perf.getProcno(),     // 1. (for PROCNO = ?)
+                    perf.getEmpno(),      // 2. (for EMPNO = ?)
+                    perf.getWono(),       // 3. (for WONO = ?)
+                    perf.getSeqno(),      // 4. (for SEQNO = ?)
+                    perf.getQty(),        // 5. (for QTY = ?)
+                    perf.getQtydefect(),  // 6. (for QTYDEFECT = ?)
+                    perf.getPerfdate(),   // 7. (for PERFDATE = ?)
+                    perf.getFara(),       // 8. (for FARA = ?)
+                    perf.getNote(),       // 9. (for NOTE = ?)
+                    perf.getPerfno()      // 10. (for WHERE PERFNO = ?)
+            );
+        } catch (Exception e) {
+            log.error("작업실적 수정 실패 (perfno: {}): {}", perf.getPerfno(), e.getMessage());
+            // e.printStackTrace();
+        }
+
+        return result > 0;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 //        // 이름 수정
@@ -330,6 +475,18 @@ public class MemberDao {
 //            result = jdbcTemplate.update(query, member.getPwd(), member.getEmail());
 //        } catch (Exception e){
 //            log.error("비밀번호 수정 실패 : {}", e.getMessage());
+//        }
+//        return result > 0;
+//    }
+
+// 제품 삭제
+//    public boolean deleteProd(Prod prod) {
+//        int result = 0;
+//        String query = "DELETE FROM MES_PROD_TABLE WHERE PRODNO = ?";
+//        try {
+//            result = jdbcTemplate.update(query, prod.getProdno());
+//        } catch (Exception e) {
+//            log.error("제품 정보 삭제 실패 : {}", e.getMessage());
 //        }
 //        return result > 0;
 //    }

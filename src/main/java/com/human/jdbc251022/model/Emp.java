@@ -17,7 +17,8 @@ public class Emp {
     private LocalDate hiredate;
     private int mgr;
 
-    public Emp(int deptno, String ename, String job, int mgr) {
+    public Emp(int empno, int deptno, String ename, String job, int mgr) {
+        this.empno = empno;
         this.deptno = deptno;
         this.ename = ename;
         this.job = job;
