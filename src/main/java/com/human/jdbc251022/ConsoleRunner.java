@@ -18,26 +18,24 @@ public class ConsoleRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         while (true){
-            System.out.println("===== 콘솔 회원 관리 시스템 =====");
-            System.out.println("[1]회원 등록 [2]회원 목록 조회 [3]회원 정보 삭제 [4]회원 정보 수정 [0]종료");
+            System.out.println("===== MESDB =====");
+            System.out.println("[1]조회 [2]등록 [3]수정 [4]삭제 [0]종료");
             System.out.print("입력 : ");
             int sel = sc.nextInt();
             sc.nextLine();
             switch (sel){
                 case 1:
-//                   input.regMember();
-                   break;
+                    input.checkTable(); break;
                 case 2:
-                   input.infoMember(); break;
+                    break;
                 case 3:
-//                    input.deleteMember();
                     break;
                 case 4:
-//                    input.processUpdateMember();
                     break;
                 case 0:
                     System.out.println("프로그램을 종료합니다."); return;
                 default:System.out.println("다시 입력해 주세요");
+
             }
         }
     }

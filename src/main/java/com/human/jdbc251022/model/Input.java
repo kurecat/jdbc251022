@@ -16,9 +16,59 @@ public class Input {
         this.sc = new Scanner(System.in); // Scanner는 여기서 직접 생성
     }
 
-    public void infoMember() { // 조회
-        List<Member> memberList = memberDao.memberList();
-        for (Member member : memberList) System.out.println(member);
+    public void checkTable() { // 조회
+        while (true) {
+            System.out.println("조회할 메뉴를 고르세요");
+            System.out.print("[1]부서 [2]사원 [3]제품 [4]작업실적 [5]작업지시 [6]설비 및 공정 조회 [7]재고상태 [8]출고기록");
+            int c = sc.nextInt();
+                switch (c) {
+                    case 1:
+                        System.out.println("조회할 부서를 선택해 주세요");
+                        System.out.println("[1]총괄 관리부 [2]생산관리부 [3]품질관리부 [4]설비관리부 [5]자재관리부 [6]물류관리부");
+                        System.out.print("입력 : ");
+                        int deptC = sc.nextInt();
+                        switch (deptC){
+                            case 1:
+                                List<dept> memberList1 = memberDao.DeptList1();
+                                for (dept emp1 : memberList1) System.out.println(emp1);
+                                break;
+                            case 2:
+                                break;
+                            case 3:
+
+                            case 4:
+
+                            case 5:
+
+                            case 6:
+
+                            default:System.out.println("다시 선택해 주세요");
+                        }
+                        break;
+                    case 2: // 사원
+                        List<Emp> memberList = memberDao.EmpList();
+                        for (Emp emp : memberList) System.out.println(emp);
+                        break;
+                    case 3:
+
+                    case 4:
+
+                    case 5:
+
+                    case 6:
+
+                    case 7:
+
+                    case 8:
+
+                    case 0:
+                        return;
+
+                    default:
+                        System.out.println("메뉴를 다시 선택해주세요.");
+                }
+            }
+        }
     }
 
 //    public void deleteMember(){ // 회원 정보 삭제
@@ -87,7 +137,3 @@ public class Input {
 //
 //        System.out.println("회원 정보 수정 : " + (isSuccess ? "성공" : "실패"));
 //    }
-}
-
-
-
