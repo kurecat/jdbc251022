@@ -42,11 +42,27 @@ public class Input {
                     regWo();
                     break;
                 case 6:
+                    System.out.println("등록할 메뉴를 선택해 주세요");
+                    System.out.println("[1]SEQ 설비 상세 등록 [2]PROC 설비 공정 등록 [3]뒤로가기");
+                    System.out.print("입력: ");
+                    int Seqc = sc.nextInt();
 
+                    switch (Seqc) {
+                        case 1:
+                            regSeq();
+                            break;
+                        case 2:
+                            regProc();
+                            break;
+                        case 3:return;
+                        default:
+                    }
                 case 7:
-
+                    regInv();
+                    break;
                 case 8:
-
+                    regDeli();
+                    break;
                 case 9:System.exit(0);
                 case 0:return;
             }
@@ -312,6 +328,77 @@ public class Input {
         System.out.println("작업실적등록 : " + (inSuccess ? "성공" : "실패"));
     }
 
+    // 설비 및 공정 등록 - [1] SEQ 설비상세등록
+    public void regSeq() {
+        System.out.println("======= 설비 상세 등록 =======");
+        System.out.print("설비번호: ");
+        String seqno = sc.nextLine();
+        sc.nextLine();
+
+        System.out.print("설비명: ");
+        String seqname = sc.nextLine();
+        sc.nextLine();
+
+        System.out.print("공정순서: ");
+        String seqor = sc.nextLine();
+        sc.nextLine();
+
+        System.out.print("비고: ");
+        String note = sc.nextLine();
+
+        Seq seq = new Seq(seqno, seqname, seqor, note);
+
+        boolean inSuccess = memberDao.insertSeq(seq);
+        System.out.println("설비상세등록 : " + (inSuccess ? "성공" : "실패"));
+    }
+
+    // 설비 및 공정 등록 - [4]PROC 설비 공정 등록
+    public void regProc() {
+        System.out.println("======= 설비 공정 등록 =======");
+        System.out.print("공정번호: ");
+        int procno = sc.nextInt();
+
+        System.out.print("공정순서: ");
+        String seqno = sc.nextLine();
+        sc.nextLine();
+
+        System.out.print("공정명: ");
+        String procname = sc.nextLine();
+        sc.nextLine();
+
+        Proc proc = new Proc(procno, seqno, procname);
+
+        boolean inSuccess = memberDao.insertProc(proc);
+        System.out.println("설비 공정 등록 : " + (inSuccess ? "성공" : "실패"));
+    }
+
+    // 재고상태등록
+    public void regInv() {
+        System.out.println("======= 재고상태 등록 =======");
+        System.out.print("재고번호: ");
+        int invno = sc.nextInt();
+
+        System.out.print("재고번호: ");
+        int prodno = sc.nextInt();
+
+        System.out.print("수량: ");
+        int qty = sc.nextInt();
+
+        System.out.print("위치: ");
+        String location = sc.nextLine();
+        sc.nextLine();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        System.out.print("수정일자 (DD/MM/YY): ");
+        String dateInput = sc.nextLine();
+        LocalDate update_date = LocalDate.parse(dateInput, formatter);
+
+        Inv inv = new Inv(invno, prodno, qty, location, update_date);
+
+        boolean inSuccess = memberDao.insertInv(inv);
+        System.out.println("재고상태 등록 : " + (inSuccess ? "성공" : "실패"));
+    }
+
     // 작업지시등록
     public void regWo() {
         System.out.println("======= 작업 지시 등록 =======");
@@ -350,6 +437,7 @@ public class Input {
         System.out.println("작업지시등록 : " + (inSuccess ? "성공" : "실패"));
     }
 
+    // 출고기록등록
     public void regDeli() {
         System.out.println("======= 출고기록 등록 =======");
         System.out.print("출고번호: ");
@@ -360,7 +448,21 @@ public class Input {
 
         System.out.print("출고수량: ");
         int deliqty = sc.nextInt();
+        sc.nextLine();
 
         System.out.print("도착지: ");
+        String loc = sc.nextLine();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        System.out.print("출고일자 (DD/MM/YY): ");
+        String dateInput = sc.nextLine();
+        LocalDate delidate = LocalDate.parse(dateInput, formatter);
+
+        System.out.print("메모: ");
+        String note = sc.nextLine();
+
+        Deli deli = new Deli(delino, invno, deliqty, loc, delidate, note);
+        boolean inSuccess = memberDao.insertDeli(deli);
+        System.out.println("작업지시등록 : " + (inSuccess ? "성공" : "실패"));
     }
 }

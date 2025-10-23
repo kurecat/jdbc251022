@@ -332,17 +332,75 @@ public class MemberDao {
         return result > 0;
     }
 
-    // 설비 및 공정 등록 - [2] FDCLOG 설비로그등록
-    public boolean insertFdclog(Fdclog fdclog) {
+    // 설비 및 공정 등록 - [4] PROC 설비 공정 등록
+    public boolean insertProc(Proc proc) {
         int result = 0;
-        String query = "INSERT INTO MES_FDCLOG_TABLE(LOGNO, SEQNO, PARAMNO, PARAMVALUE, LOGTIME) VALUES(?, ?, ?, ?, ?)";
+        String query = "INSERT INTO MES_PROC_TABLE(PROCNO, SEQNO, PROCNAME) VALUES(?, ?, ?)";
         try {
-            result = jdbcTemplate.update(query, fdclog.getLogno(), fdclog.getSeqno(), fdclog.getParamno(), fdclog.getParamvalue(), fdclog.getLogtime());
+            result = jdbcTemplate.update(query, proc.getProcno(), proc.getSeqno(), proc.getProcname());
         } catch (Exception e) {
-            log.error("설비 로그 등록 실패 : {}", e.getMessage());
+            log.error("설비 공정 등록 실패 : {}", e.getMessage());
         }
         return result > 0;
     }
+
+    // 출고기록등록 DELI
+    public boolean insertDeli(Deli deli) {
+        int result = 0;
+        String query = "INSERT INTO MES_DELI_TABLE(DELINO, INVNO, DELIQTY, LOC, DELIDATE, NOTE) VALUES(?, ?, ?, ?, ?, ?)";
+        try {
+            result = jdbcTemplate.update(query, deli.getDelino(), deli.getInvno(), deli.getDeliqty(), deli.getLoc(), deli.getDelidate(), deli.getNote());
+        } catch (Exception e) {
+            log.error("출고 기록 등록 실패 : {}", e.getMessage());
+        }
+        return result > 0;
+    }
+
+    // 재고상태등록
+    public boolean insertInv(Inv inv) {
+        int result = 0;
+        String query = "INSERT INTO MES_INV_TABLE(INVNO, PRODNO, QTY, LOCATION, UPDATE_DATE) VALUES(?, ?, ?, ?, ?)";
+        try {
+            result = jdbcTemplate.update(query, inv.getInvno(), inv.getProdno(), inv.getQty(), inv.getLocation(), inv.getUpdate_date());
+        } catch (Exception e) {
+            log.error("재고상태 등록 실패 : {}", e.getMessage());
+        }
+        return result > 0;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // 작업 실적 수정
     public boolean updatePerf(Perf perf) {
@@ -408,46 +466,3 @@ public class MemberDao {
 
 }
 
-//        // 이름 수정
-//    public boolean updateNameMember(Member member) {
-//        int result = 0;
-//        String query = "UPDATE member SET NAME = ? WHERE EMAIL = ?";
-//        try {
-//            result = jdbcTemplate.update(query, member.getName() , member.getEmail());
-//        } catch (Exception e){
-//            log.error("이름 수정 실패 : {}", e.getMessage());
-//        }
-//        return result > 0;
-//    }
-
-
-
-
-
-
-
-
-
-// 비밀번호 수정
-//    public boolean updatePwdMember(Member member) {
-//        int result = 0;
-//        String query = "UPDATE member SET PWD = ? WHERE EMAIL = ?";
-//        try {
-//            result = jdbcTemplate.update(query, member.getPwd(), member.getEmail());
-//        } catch (Exception e){
-//            log.error("비밀번호 수정 실패 : {}", e.getMessage());
-//        }
-//        return result > 0;
-//    }
-
-// 제품 삭제
-//    public boolean deleteProd(Prod prod) {
-//        int result = 0;
-//        String query = "DELETE FROM MES_PROD_TABLE WHERE PRODNO = ?";
-//        try {
-//            result = jdbcTemplate.update(query, prod.getProdno());
-//        } catch (Exception e) {
-//            log.error("제품 정보 삭제 실패 : {}", e.getMessage());
-//        }
-//        return result > 0;
-//    }
