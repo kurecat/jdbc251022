@@ -16,6 +16,7 @@ public class Input {
         this.sc = new Scanner(System.in); // Scanner는 여기서 직접 생성
     }
 
+
     public void infoMember() {
         List<Member> memberList = memberDao.memberList();
         for (Member member : memberList) System.out.println(member);
