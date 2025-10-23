@@ -1,5 +1,6 @@
 package com.human.jdbc251022.model;
 
+
 import java.time.LocalDateTime;
 
 // ---- 재고상태조회 ----

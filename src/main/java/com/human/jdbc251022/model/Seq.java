@@ -1,5 +1,6 @@
 package com.human.jdbc251022.model;
 
+
 // ---- 설비 및 공정 조회 ----
 // ---- [1] 설비상세조회 ----
 public class Seq {

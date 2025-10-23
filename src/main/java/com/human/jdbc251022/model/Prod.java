@@ -1,5 +1,6 @@
 package com.human.jdbc251022.model;
 
+
 // ---- 제품조회 ----
 public class Prod {
     private int prodno; // 제품번호

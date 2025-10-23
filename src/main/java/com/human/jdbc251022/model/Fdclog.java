@@ -1,5 +1,6 @@
 package com.human.jdbc251022.model;
 
+
 import java.time.LocalDateTime;
 
 // ---- [2] 설비로그조회 ----

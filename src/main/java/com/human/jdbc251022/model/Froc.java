@@ -1,5 +1,6 @@
 package com.human.jdbc251022.model;
 
+
 // ---- [4] 설비 공정 조회 ----
 public class Froc {
     private int procno; // 공정번호

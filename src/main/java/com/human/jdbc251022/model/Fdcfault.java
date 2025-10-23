@@ -1,5 +1,6 @@
 package com.human.jdbc251022.model;
 
+
 import java.time.LocalDateTime;
 
 // ---- [3] 설비이상감지이력조회 ----
