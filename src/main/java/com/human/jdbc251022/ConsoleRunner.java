@@ -25,13 +25,16 @@ public class ConsoleRunner implements CommandLineRunner {
             sc.nextLine();
             switch (sel){
                 case 1:
-                   input.regMember(); break;
+//                   input.regMember();
+                   break;
                 case 2:
                    input.infoMember(); break;
                 case 3:
-                    input.deleteMember(); break;
+//                    input.deleteMember();
+                    break;
                 case 4:
-                    input.processUpdateMember(); break;
+//                    input.processUpdateMember();
+                    break;
                 case 0:
                     System.out.println("프로그램을 종료합니다."); return;
                 default:System.out.println("다시 입력해 주세요");
