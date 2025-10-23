@@ -1,6 +1,6 @@
 package com.human.jdbc251022.model;
 import lombok.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 
 
@@ -9,7 +9,7 @@ public class Deli {
     private int invno; // 재고번호
     private int deliqty; // 출고수량
     private String loc; // 도착지
-    private LocalDateTime delidate; // 출고일자
+    private LocalDate delidate; // 출고일자
     private String note; // 비고
 
     public String toString() {

@@ -3,6 +3,10 @@ package com.human.jdbc251022.model;
 import com.human.jdbc251022.dao.MemberDao;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 @Component
@@ -22,9 +26,13 @@ public class Input {
             System.out.println("[1]부서 [2]사원 [3]제품 [4]작업실적 [5]작업지시 [6]설비 및 공정 조회 [7]재고상태 [8]출고기록 [9]종료 [0]뒤로가기");
             System.out.print("입력 : ");
             int c = sc.nextInt();
+            sc.nextLine();
             switch (c) {
                 case 1:
+
                 case 2:
+                    regEmp();
+                    break;
                 case 3:
                     regProd();
                     break;
@@ -147,6 +155,45 @@ public class Input {
             default:
                 System.out.println("다시 선택해 주세요");
         }
+    }
+
+    // 사원 등록
+    public void regEmp() {
+        System.out.println("======= 사원 등록 =======");
+        System.out.print("부서번호(4자리수): ");
+        int deptno = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("사원명: ");
+        String ename = sc.nextLine();
+
+        System.out.print("직책: ");
+        String job = sc.nextLine();
+
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//        LocalDate hiredate = null;
+//        while (hiredate == null) { // 올바른 형식이 입력될 때까지 반복
+//            System.out.print("입사일 (DD/MM/YY): ");
+//            String dateString = sc.nextLine(); // 1. 날짜를 문자열로 입력받음
+//
+//            try {
+//                // 2. 입력받은 문자열을 LocalDate 객체로 변환(파싱)
+//                hiredate = LocalDate.parse(dateString, formatter);
+//            } catch (DateTimeParseException e) {
+//                System.out.println("날짜 형식이 잘못되었습니다. dd-MM-yy 형식으로 다시 입력해주세요.");
+//            }
+//        }
+
+        System.out.print("상사번호: ");
+        int mgr = sc.nextInt();
+        sc.nextLine();
+
+        Emp emp = new Emp(deptno, ename, job, mgr);
+
+//        boolean inSuccess =  memberDao.insertEmp(emp);
+        memberDao.insertEmp(emp);
+        System.out.println(5);
+//        System.out.println("사원 등록 : " + (inSuccess ? "성공" : "실패"));
     }
 
     // 제품 등록

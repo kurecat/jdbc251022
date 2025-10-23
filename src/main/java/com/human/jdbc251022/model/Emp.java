@@ -3,6 +3,7 @@ package com.human.jdbc251022.model;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 //게터, 세터, toString, 매개변수가 다 있는 생성자, 매개변수가 없는데 생성자를 자동으로 만들어줌.
@@ -13,8 +14,15 @@ public class Emp {
     private int deptno;
     private String ename;
     private String job;
-    private LocalDateTime hiredate;
+    private LocalDate hiredate;
     private int mgr;
+
+    public Emp(int deptno, String ename, String job, int mgr) {
+        this.deptno = deptno;
+        this.ename = ename;
+        this.job = job;
+        this.mgr = mgr;
+    }
 
     public String toString() {
         return "사원번호: " + empno + "\n" +

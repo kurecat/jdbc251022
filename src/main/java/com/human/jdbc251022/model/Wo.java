@@ -1,6 +1,7 @@
 package com.human.jdbc251022.model;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 
 
@@ -8,16 +9,16 @@ import java.time.LocalDateTime;
 public class Wo {
     private int wono; // 작업지시번호
     private int prodno; // 제품번호
-    private int prodcno; // 공정번호
-    private LocalDateTime orderdate; // 지시일자
-    private LocalDateTime duedate; // 완료 예정일
+    private int procno; // 공정번호
+    private LocalDate orderdate; // 지시일자
+    private LocalDate duedate; // 완료 예정일
     private int qty; // 수량
     private String note; // 비고
 
     public String toString() {
         return "작업지시번호: " + wono + "\n" +
                 "제품번호: " + prodno + "\n" +
-                "공정번호: " + prodcno + "\n" +
+                "공정번호: " + prodno + "\n" +
                 "지시일자: " + orderdate + "\n" +
                 "완료 예정일: " + duedate + "\n" +
                 "수량: " + qty + "\n" +

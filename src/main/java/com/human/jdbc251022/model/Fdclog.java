@@ -1,6 +1,6 @@
 package com.human.jdbc251022.model;
 import lombok.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 
 
@@ -9,7 +9,7 @@ public class Fdclog {
     private String seqno; // 설비번호
     private String paramno; // 파라미터번호
     private double param_value; // 파라미터 값
-    private LocalDateTime log_time; // 로그 시간
+    private LocalDate log_time; // 로그 시간
 
     public String toString() {
         return "로그번호: " + logno + "\n" +

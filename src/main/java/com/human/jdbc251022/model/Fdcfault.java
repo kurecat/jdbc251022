@@ -1,6 +1,6 @@
 package com.human.jdbc251022.model;
 import lombok.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 
 
@@ -10,7 +10,7 @@ public class Fdcfault {
     private String seqno; // 설비번호
     private String faultcode; // 오류코드
     private String faultmsg; // 오류메시지
-    private LocalDateTime faulttime; // 오류 발생 시간
+    private LocalDate faulttime; // 오류 발생 시간
 
     public String toString() {
         return "오류번호: " + faultno + "\n" +

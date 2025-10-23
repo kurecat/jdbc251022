@@ -1,5 +1,7 @@
 package com.human.jdbc251022.model;
 import lombok.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 
@@ -8,7 +10,7 @@ public class Dept {
     private int deptno;
     private String ename;
     private String job;
-    private LocalDateTime hiredate;
+    private LocalDate hiredate;
     private int mgr;
 
     public String toString() {

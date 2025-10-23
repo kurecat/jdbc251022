@@ -1,6 +1,7 @@
 package com.human.jdbc251022.model;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 
 // ---- 작업실적조회 ----
@@ -12,7 +13,7 @@ public class Perf {
     private String seqno; // 순번
     private int qty; // 수량
     private int qtydefect; // 불량수량
-    private LocalDateTime perfdate; // 실적일자
+    private LocalDate perfdate; // 실적일자
     private double fara; // 불량율
     private String note; // 비고
 

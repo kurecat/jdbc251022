@@ -31,7 +31,7 @@ public class MemberDao {
                     rs.getInt("DEPTNO"),
                     rs.getString("ENAME"),
                     rs.getString("JOB"),
-                    rs.getTimestamp("HIREDATE").toLocalDateTime(),
+                    rs.getTimestamp("HIREDATE").toLocalDateTime().toLocalDate(),
                     rs.getInt("MGR")
             );
         }
@@ -76,7 +76,7 @@ public class MemberDao {
                     rs.getInt("DEPTNO"),
                     rs.getString("ENAME"),
                     rs.getString("JOB"),
-                    rs.getTimestamp("HIREDATE").toLocalDateTime(),
+                    rs.getTimestamp("HIREDATE").toLocalDateTime().toLocalDate(),
                     rs.getInt("MGR")
             );
         }
@@ -117,7 +117,7 @@ public class MemberDao {
                     rs.getString("SEQNO"),
                     rs.getInt("QTY"),
                     rs.getInt("QTYDEFECT"),
-                    rs.getTimestamp("PERFDATE").toLocalDateTime(),
+                    rs.getTimestamp("PERFDATE").toLocalDateTime().toLocalDate(),
                     rs.getDouble("FARA"),
                     rs.getString("NOTE")
             );
@@ -137,8 +137,8 @@ public class MemberDao {
                     rs.getInt("WONO"),
                     rs.getInt("PRODNO"),
                     rs.getInt("PROCNO"),
-                    rs.getTimestamp("ORDERDATE").toLocalDateTime(),
-                    rs.getTimestamp("DUEDATE").toLocalDateTime(),
+                    rs.getTimestamp("ORDERDATE").toLocalDateTime().toLocalDate(),
+                    rs.getTimestamp("DUEDATE").toLocalDateTime().toLocalDate(),
                     rs.getInt("QTY"),
                     rs.getString("NOTE")
             );
@@ -176,7 +176,7 @@ public class MemberDao {
                     rs.getString("SEQNO"),
                     rs.getString("PARAMNO"),
                     rs.getDouble("PARAMVALUE"),
-                    rs.getTimestamp("LOGTIME").toLocalDateTime()
+                    rs.getTimestamp("LOGTIME").toLocalDateTime().toLocalDate()
             );
         }
     }
@@ -195,7 +195,7 @@ public class MemberDao {
                     rs.getString("SEQNO"),
                     rs.getString("FAULTCODE"),
                     rs.getString("FAULTMSG"),
-                    rs.getTimestamp("FAULTTIME").toLocalDateTime()
+                    rs.getTimestamp("FAULTTIME").toLocalDateTime().toLocalDate()
             );
         }
     }
@@ -231,7 +231,7 @@ public class MemberDao {
                     rs.getInt("PRODNO"),
                     rs.getInt("QTY"),
                     rs.getString("LOCATION"),
-                    rs.getTimestamp("UPDATE_DATE").toLocalDateTime()
+                    rs.getTimestamp("UPDATE_DATE").toLocalDateTime().toLocalDate()
             );
         }
     }
@@ -250,26 +250,46 @@ public class MemberDao {
                     rs.getInt("INVNO"),
                     rs.getInt("DELIQTY"),
                     rs.getString("LOC"),
-                    rs.getTimestamp("DELIDATE").toLocalDateTime(),
+                    rs.getTimestamp("DELIDATE").toLocalDateTime().toLocalDate(),
                     rs.getString("NOTE")
             );
         }
     }
 
     // 제품 삭제
-    public boolean deleteProd(Prod prod) {
+//    public boolean deleteProd(Prod prod) {
+//        int result = 0;
+//        String query = "DELETE FROM MES_PROD_TABLE WHERE PRODNO = ?";
+//        try {
+//            result = jdbcTemplate.update(query, prod.getProdno());
+//        } catch (Exception e) {
+//            log.error("제품 정보 삭제 실패 : {}", e.getMessage());
+//        }
+//        return result > 0;
+//    }
+
+    // 사원 등록
+    public void insertEmp(Emp emp) {
+        System.out.println(1);
         int result = 0;
-        String query = "DELETE FROM MES_PROD_TABLE WHERE PRODNO = ?";
+        String query = "INSERT INTO MES_EMP_TABLE(EMPNO, DEPTNO, ENAME, JOB, HIREDATE, MGR) VALUES((select max(empno) + 1 from mes_emp_table), ?, ?, ?, SYSDATE, ?)";
         try {
-            result = jdbcTemplate.update(query, prod.getProdno());
+            System.out.println(2);
+            System.out.println(emp.getDeptno());
+            jdbcTemplate.update(query, emp.getDeptno(), emp.getEname(), emp.getJob(), emp.getMgr());
+            System.out.println(result);
+            System.out.println(3);
         } catch (Exception e) {
-            log.error("제품 정보 삭제 실패 : {}", e.getMessage());
+            log.error("사원 정보 추가 실패 : {}", e.getMessage());
         }
-        return result > 0;
+        System.out.println(4);
+//        return result > 0;
     }
+
 
     //제품 등록
     public boolean insertProd(Prod prod) {
+        System.out.println(1);
         int result = 0;
         String query = "INSERT INTO MES_PROD_TABLE(PRODNO, PRODNAME, SPCE, UNIT) VALUES(?, ?, ?, ?)";
         try {

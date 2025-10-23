@@ -1,6 +1,7 @@
 package com.human.jdbc251022.model;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 
 
@@ -10,7 +11,7 @@ public class Inv {
     private int prodno; // 제품번호
     private int qty; // 수량
     private String location; // 위치
-    private LocalDateTime updatedate; // 수정일자
+    private LocalDate updatedate; // 수정일자
 
     public String toString() {
         return "재고번호: " + invno + "\n" +
