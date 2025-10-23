@@ -4,9 +4,7 @@ import com.human.jdbc251022.dao.MemberDao;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 @Component
@@ -38,9 +36,11 @@ public class Input {
                     regProd();
                     break;
                 case 4:
-
+                    regPerf();
+                    break;
                 case 5:
-
+                    regWo();
+                    break;
                 case 6:
 
                 case 7:
@@ -152,8 +152,8 @@ public class Input {
                 for (Fdcfault fdcfault : fdcfaultList) System.out.println(fdcfault);
                 break;
             case 4:
-                List<Froc> frocList = memberDao.FrocList();
-                for (Froc froc : frocList) System.out.println(froc);
+                List<Proc> procList = memberDao.FrocList();
+                for (Proc proc : procList) System.out.println(proc);
                 break;
         }
     }
@@ -264,8 +264,103 @@ public class Input {
         System.out.println("제품 등록 : " + (inSuccess ? "성공" : "실패"));
     }
 
+    // 실적 등록
     public void regPerf() {
-        System.out.println("======= 작업실적 등록 =======");
-        System.out.print("부서번호(4자리수): ");
+        System.out.println("======= 작업 실적 등록 =======");
+        System.out.print("실적번호: ");
+        int perfno = sc.nextInt();
+        sc.nextLine(); // nextInt() 뒤의 엔터(\n) 소비
+
+        System.out.print("공정번호: ");
+        int procno = sc.nextInt();
+        sc.nextLine(); // nextInt() 뒤의 엔터(\n) 소비
+
+        System.out.print("사원번호: ");
+        int empno = sc.nextInt();
+        sc.nextLine(); // nextInt() 뒤의 엔터(\n) 소비
+
+        System.out.print("작업지시번호: ");
+        int wono = sc.nextInt();
+        sc.nextLine(); // <-- [수정 1] '순번' 입력을 위해 엔터 소비
+
+        System.out.print("순번: ");
+        String seqno = sc.nextLine(); // 이제 정상 입력됨
+
+        System.out.print("수량: ");
+        int qty = sc.nextInt();
+        sc.nextLine(); // nextInt() 뒤의 엔터(\n) 소비
+
+        System.out.print("불량수량: ");
+        int qtydefect = sc.nextInt();
+        sc.nextLine();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yy");
+        System.out.print("실적일자 (DD-MM-YY): ");
+        String dateInput = sc.nextLine();
+        LocalDate perfdate = LocalDate.parse(dateInput, formatter);
+
+        System.out.print("불량율: ");
+        double fara = sc.nextDouble();
+        sc.nextLine(); // <-- [수정 5] '비고' 입력을 위해 엔터 소비
+
+        System.out.print("비고: ");
+        String note = sc.nextLine(); // 이제 정상 입력됨
+
+        Perf perf = new Perf(perfno, procno, empno, wono, seqno, qty, qtydefect, perfdate, fara, note);
+
+        boolean inSuccess = memberDao.insertPerf(perf);
+        System.out.println("작업실적등록 : " + (inSuccess ? "성공" : "실패"));
+    }
+
+    // 작업지시등록
+    public void regWo() {
+        System.out.println("======= 작업 지시 등록 =======");
+        System.out.print("작업지시번호: ");
+        int wono = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("제품번호: ");
+        int prodno = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("공정번호: ");
+        int procno = sc.nextInt();
+        sc.nextLine();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        System.out.print("지시일자 (DD/MM/YY): ");
+        String dateInput = sc.nextLine();
+        LocalDate orderdate = LocalDate.parse(dateInput, formatter);
+
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd/MM/yy");
+        System.out.print("완료일자 (DD/MM/YY): ");
+        String dateInput1 = sc.nextLine();
+        LocalDate duedate = LocalDate.parse(dateInput1, formatter1);
+
+        System.out.print("수량: ");
+        int qty = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("비고: ");
+        String note = sc.nextLine();
+
+        Wo wo = new Wo(wono, prodno, procno, orderdate, duedate, qty, note);
+
+        boolean inSuccess = memberDao.insertWo(wo);
+        System.out.println("작업지시등록 : " + (inSuccess ? "성공" : "실패"));
+    }
+
+    public void regDeli() {
+        System.out.println("======= 출고기록 등록 =======");
+        System.out.print("출고번호: ");
+        int delino = sc.nextInt();
+
+        System.out.print("재고번호: ");
+        int invno = sc.nextInt();
+
+        System.out.print("출고수량: ");
+        int deliqty = sc.nextInt();
+
+        System.out.print("도착지: ");
     }
 }

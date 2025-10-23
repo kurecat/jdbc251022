@@ -22,7 +22,6 @@ public class MemberDao {
         String query = "SELECT * FROM MES_EMP_TABLE";
         return jdbcTemplate.query(query, new EmpRowMapper());
     }
-
     private static class EmpRowMapper implements RowMapper<Emp> {
         @Override
         public Emp mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -36,12 +35,12 @@ public class MemberDao {
             );
         }
     }
+
     // 전체부서조회
     public List<iDept> iDeptList(){
         String query = "SELECT * FROM MES_DEPT_TABLE";
         return jdbcTemplate.query(query, new ideptRowMapper());
     }
-
     // 부서조회 - 총괄관리부
     public List<Dept> DeptList1() {
         String query = "SELECT * FROM MES_EMP_TABLE WHERE DEPTNO = 1001";
@@ -102,7 +101,6 @@ public class MemberDao {
         String query = "SELECT * FROM MES_PROD_TABLE";
         return jdbcTemplate.query(query, new ProdRowMapper());
     }
-
     private static class ProdRowMapper implements RowMapper<Prod> {
         @Override
         public Prod mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -120,7 +118,6 @@ public class MemberDao {
         String query = "SELECT * FROM MES_PERF_TABLE";
         return jdbcTemplate.query(query, new PerfRowMapper());
     }
-
     private static class PerfRowMapper implements RowMapper<Perf> {
         @Override
         public Perf mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -144,7 +141,6 @@ public class MemberDao {
         String query = "SELECT * FROM MES_WO_TABLE";
         return jdbcTemplate.query(query, new WoRowMapper());
     }
-
     private static class WoRowMapper implements RowMapper<Wo> {
         @Override
         public Wo mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -165,7 +161,6 @@ public class MemberDao {
         String query = "SELECT * FROM MES_SEQ_TABLE";
         return jdbcTemplate.query(query, new SeqRowMapper());
     }
-
     private static class SeqRowMapper implements RowMapper<Seq> {
         @Override
         public Seq mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -182,7 +177,6 @@ public class MemberDao {
         String query = "SELECT * FROM MES_FDCLOG_TABLE";
         return jdbcTemplate.query(query, new FdclogRowMapper());
     }
-
     private static class FdclogRowMapper implements RowMapper<Fdclog> {
         @Override
         public Fdclog mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -200,7 +194,6 @@ public class MemberDao {
         String query = "SELECT * FROM MES_FDCFAULT_TABLE";
         return jdbcTemplate.query(query, new FdcfaultRowMapper());
     }
-
     private static class FdcfaultRowMapper implements RowMapper<Fdcfault> {
         @Override
         public Fdcfault mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -214,17 +207,15 @@ public class MemberDao {
             );
         }
     }
-
     // 설비 및 공정 조회 - [4] 설비 공정 조회
-    public List<Froc> FrocList() {
+    public List<Proc> FrocList() {
         String query = "SELECT * FROM MES_PROC_TABLE";
         return jdbcTemplate.query(query, new FrocRowMapper());
     }
-
-    private static class FrocRowMapper implements RowMapper<Froc> {
+    private static class FrocRowMapper implements RowMapper<Proc> {
         @Override
-        public Froc mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Froc(
+        public Proc mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Proc(
                     rs.getInt("PROCNO"),
                     rs.getString("SEQNO"),
                     rs.getString("PROCNAME")
@@ -237,7 +228,6 @@ public class MemberDao {
         String query = "SELECT * FROM MES_INV_TABLE";
         return jdbcTemplate.query(query, new InvRowMapper());
     }
-
     private static class InvRowMapper implements RowMapper<Inv> {
         @Override
         public Inv mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -256,7 +246,6 @@ public class MemberDao {
         String query = "SELECT * FROM MES_DELI_TABLE";
         return jdbcTemplate.query(query, new DeliRowMapper());
     }
-
     private static class DeliRowMapper implements RowMapper<Deli> {
         @Override
         public Deli mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -354,34 +343,6 @@ public class MemberDao {
         }
         return result > 0;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     // 작업 실적 수정
     public boolean updatePerf(Perf perf) {
