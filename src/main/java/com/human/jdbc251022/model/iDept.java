@@ -8,8 +8,7 @@ public class iDept {
     private String deptname;
 
     public String toString() {
-        return "부서번호: " + deptno + "\n" +
-                "부서이름: " + deptname + "\n";
+        return "부서번호: " + deptno +  " / 부서이름: " + deptname + "\n";
     }
 
 }

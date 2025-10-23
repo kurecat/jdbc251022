@@ -77,7 +77,8 @@ public class Input {
             int c = sc.nextInt();
             switch (c) {
                 case 1:
-                    DeptTotalList();
+                    List<iDept> iDeptList = memberDao.iDeptList();
+                    for (iDept iDept : iDeptList) System.out.print(iDept);
                     break;
                 case 2: // 사원
                     List<Emp> memberList = memberDao.EmpList();
@@ -125,7 +126,8 @@ public class Input {
 
             switch (c){
                 case 1:
-
+                    upDept();
+                    break;
                 case 2:
 
                 case 3:
@@ -139,6 +141,8 @@ public class Input {
                 case 7:
 
                 case 8:
+                    upDELI();
+                    break;
 
                 case 9:System.exit(0);
                 case 0:return;
@@ -171,48 +175,6 @@ public class Input {
                 List<Proc> procList = memberDao.FrocList();
                 for (Proc proc : procList) System.out.println(proc);
                 break;
-        }
-    }
-
-    // 부서조회
-    public void DeptTotalList() {
-        System.out.println("조회할 부서를 선택해 주세요");
-        System.out.println("[1]부서전체조회 [2]총괄관리부 [3]생산관리부 [4]품질관리부 [5]설비관리부 [6]자재관리부 [7]물류관리부 [8]뒤로가기");
-        System.out.print("입력 : ");
-        int deptC = sc.nextInt();
-        switch (deptC) {
-            case 1:
-                List<iDept> iDeptList = memberDao.iDeptList();
-                for (iDept iDept : iDeptList) System.out.print(iDept);
-                break;
-            case 2:
-                List<Dept> deptList1 = memberDao.DeptList1();
-                for (Dept dept : deptList1) System.out.println(dept);
-                break;
-            case 3:
-                List<Dept> deptList2 = memberDao.DeptList2();
-                for (Dept dept : deptList2) System.out.println(dept);
-                break;
-            case 4:
-                List<Dept> deptList3 = memberDao.DeptList3();
-                for (Dept dept : deptList3) System.out.println(dept);
-                break;
-            case 5:
-                List<Dept> deptList4 = memberDao.DeptList4();
-                for (Dept dept : deptList4) System.out.println(dept);
-                break;
-            case 6:
-                List<Dept> deptList5 = memberDao.DeptList5();
-                for (Dept dept : deptList5) System.out.println(dept);
-                break;
-            case 7:
-                List<Dept> deptList6 = memberDao.DeptList6();
-                for (Dept dept : deptList6) System.out.println(dept);
-                break;
-            case 8:
-                return;
-            default:
-                System.out.println("다시 선택해 주세요");
         }
     }
 
@@ -463,6 +425,58 @@ public class Input {
 
         Deli deli = new Deli(delino, invno, deliqty, loc, delidate, note);
         boolean inSuccess = memberDao.insertDeli(deli);
-        System.out.println("작업지시등록 : " + (inSuccess ? "성공" : "실패"));
+        System.out.println("출고기록등록 : " + (inSuccess ? "성공" : "실패"));
     }
+
+    public void upDept(){
+        System.out.println("======= 부서정보 수정 =======");
+        System.out.println("수정할 부서의 번호를 입력하세요.");
+        System.out.print("입력 : ");
+        int c = sc.nextInt();
+        sc.nextLine();
+
+        iDept idept = new iDept();
+        idept.setDeptno(c);
+
+        boolean isSuccess = false;
+        System.out.print("새로운 부서이름을 입력해주세요: ");
+        String newDeptname = sc.nextLine();
+        idept.setDeptname(newDeptname);
+        isSuccess = memberDao.updateDept(idept);
+        System.out.println("부서 정보 수정 : " + (isSuccess ? "성공" : "실패"));
+    }
+
+    public void upDELI(){
+        System.out.println("======= 출고정보 수정 =======");
+        System.out.println("수정할 출고의 번호를 입력하세요.");
+        System.out.print("입력 : ");
+        int c = sc.nextInt();
+        sc.nextLine();
+
+        Deli deli = new Deli();
+        deli.setDelino(c);
+
+        System.out.print("새로운 수량을 입력해주세요: ");
+        int newqty = sc.nextInt();
+        sc.nextLine();
+        deli.setQty(newqty);
+
+        System.out.print("새로운 도착지를 입력해주세요: ");
+        String newloc = sc.nextLine();
+        deli.setLoc(newloc);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        System.out.print("새로운 출고일자를 입력해주세요(DD/MM/YY): ");
+        String dateInput = sc.nextLine();
+        LocalDate update_date = LocalDate.parse(dateInput, formatter);
+        deli.setDelidate(update_date);
+
+        System.out.print("새로운 비고를 입력해주세요: ");
+        String note = sc.nextLine();
+        deli.setNote(note);
+
+        boolean isSuccess = memberDao.updateDeli(deli);
+        System.out.println("출고 정보 수정 : " + (isSuccess ? "성공" : "실패"));
+    }
+
 }
