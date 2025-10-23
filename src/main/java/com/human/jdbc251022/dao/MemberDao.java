@@ -259,11 +259,24 @@ public class MemberDao {
     // 제품 삭제
     public boolean deleteProd(Prod prod) {
         int result = 0;
-        String query = "DELETE FROM PROD WHERE PRODNO = ?";
+        String query = "DELETE FROM MES_PROD_TABLE WHERE PRODNO = ?";
         try {
             result = jdbcTemplate.update(query, prod.getProdno());
         } catch (Exception e) {
             log.error("제품 정보 삭제 실패 : {}", e.getMessage());
+        }
+        return result > 0;
+    }
+
+    //제품 등록
+    public boolean insertProd(Prod prod) {
+        int result = 0;
+        String query = "INSERT INTO MES_PROD_TABLE(PRODNO, PRODNAME, SPCE, UNIT) VALUES(?, ?, ?, ?)";
+        try {
+            result = jdbcTemplate.update(query, prod.getProdno(),
+                    prod.getProdname(), prod.getSpce(), prod.getUnit());
+        } catch (Exception e) {
+            log.error("회원 정보 추가 실패 : {}", e.getMessage());
         }
         return result > 0;
     }
@@ -286,18 +299,7 @@ public class MemberDao {
 
 
 
-// 회원 등록
-//    public boolean insertMember(Member member) {
-//        int result = 0;
-//        String query = "INSERT INTO member(email, pwd, name) VALUES(?, ?, ?)";
-//        try {
-//            result = jdbcTemplate.update(query, member.getEmail(),
-//                    member.getPwd(), member.getName());
-//        } catch (Exception e) {
-//            log.error("회원 정보 추가 실패 : {}", e.getMessage());
-//        }
-//        return result > 0;
-//    }
+
 
 
 // 비밀번호 수정

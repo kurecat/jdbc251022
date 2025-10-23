@@ -19,7 +19,7 @@ public class ConsoleRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         while (true){
             System.out.println("===== MESDB =====");
-            System.out.println("[1]조회 [2]등록 [3]수정 [4]삭제 [0]종료");
+            System.out.println("[1]조회 [2]등록 [3]수정 [4]종료");
             System.out.print("입력 : ");
             int sel = sc.nextInt();
             sc.nextLine();
@@ -27,7 +27,7 @@ public class ConsoleRunner implements CommandLineRunner {
                 case 1:
                     input.checkTable(); break;
                 case 2:
-                    break;
+                    input.insertTable(); break;
                 case 3:
                     break;
                 case 4:
