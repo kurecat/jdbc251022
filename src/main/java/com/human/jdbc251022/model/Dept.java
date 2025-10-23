@@ -3,7 +3,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 
-public class dept {
+public class Dept {
     private int empno;
     private int deptno;
     private String ename;

@@ -1,7 +1,6 @@
 package com.human.jdbc251022.dao;
 
-import com.human.jdbc251022.model.Emp;
-import com.human.jdbc251022.model.dept;
+import com.human.jdbc251022.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -39,15 +38,40 @@ public class MemberDao {
     }
 
     // 부서조회 - 총괄관리부
-    public List<dept> DeptList1() {
+    public List<Dept> DeptList1() {
         String query = "SELECT * FROM MES_EMP_TABLE WHERE DEPTNO = 1001";
-        return jdbcTemplate.query(query, new Emp1RowMapper());
+        return jdbcTemplate.query(query, new deptRowMapper());
+    }
+    // 부서조회 - 생산관리부
+    public List<Dept> DeptList2() {
+        String query = "SELECT * FROM MES_EMP_TABLE WHERE DEPTNO = 2002";
+        return jdbcTemplate.query(query, new deptRowMapper());
+    }
+    // 부서조회 - 품질관리부
+    public List<Dept> DeptList3() {
+        String query = "SELECT * FROM MES_EMP_TABLE WHERE DEPTNO = 3003";
+        return jdbcTemplate.query(query, new deptRowMapper());
+    }
+    // 부서조회 - 설비관리부
+    public List<Dept> DeptList4() {
+        String query = "SELECT * FROM MES_EMP_TABLE WHERE DEPTNO = 4004";
+        return jdbcTemplate.query(query, new deptRowMapper());
+    }
+    // 부서조회 - 자재관리부
+    public List<Dept> DeptList5() {
+        String query = "SELECT * FROM MES_EMP_TABLE WHERE DEPTNO = 5005";
+        return jdbcTemplate.query(query, new deptRowMapper());
+    }
+    // 부서조회 - 물류관리부
+    public List<Dept> DeptList6() {
+        String query = "SELECT * FROM MES_EMP_TABLE WHERE DEPTNO = 6006";
+        return jdbcTemplate.query(query, new deptRowMapper());
     }
 
-    private static class Emp1RowMapper implements RowMapper<dept> {
+    private static class deptRowMapper implements RowMapper<Dept> {
         @Override
-        public dept mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new dept(
+        public Dept mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Dept(
                     rs.getInt("EMPNO"),
                     rs.getInt("DEPTNO"),
                     rs.getString("ENAME"),
@@ -57,7 +81,209 @@ public class MemberDao {
             );
         }
     }
+
+    // 제품 조회
+    public List<Prod> ProdList() {
+        String query = "SELECT * FROM MES_PROD_TABLE";
+        return jdbcTemplate.query(query, new ProdRowMapper());
+    }
+
+    private static class ProdRowMapper implements RowMapper<Prod> {
+        @Override
+        public Prod mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Prod(
+                    rs.getInt("PRODNO"),
+                    rs.getString("PRODNAME"),
+                    rs.getString("SPCE"),
+                    rs.getString("UNIT")
+            );
+        }
+    }
+
+    // 작업실적조회
+    public List<Perf> PerfList() {
+        String query = "SELECT * FROM MES_PERF_TABLE";
+        return jdbcTemplate.query(query, new PerfRowMapper());
+    }
+
+    private static class PerfRowMapper implements RowMapper<Perf> {
+        @Override
+        public Perf mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Perf(
+                    rs.getInt("PERFNO"),
+                    rs.getInt("PROCNO"),
+                    rs.getInt("EMPNO"),
+                    rs.getInt("WONO"),
+                    rs.getString("SEQNO"),
+                    rs.getInt("QTY"),
+                    rs.getInt("QTYDEFECT"),
+                    rs.getTimestamp("PERFDATE").toLocalDateTime(),
+                    rs.getDouble("FARA"),
+                    rs.getString("NOTE")
+            );
+        }
+    }
+
+    // 작업지시조회
+    public List<Wo> WoList() {
+        String query = "SELECT * FROM MES_WO_TABLE";
+        return jdbcTemplate.query(query, new WoRowMapper());
+    }
+
+    private static class WoRowMapper implements RowMapper<Wo> {
+        @Override
+        public Wo mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Wo(
+                    rs.getInt("WONO"),
+                    rs.getInt("PRODNO"),
+                    rs.getInt("PROCNO"),
+                    rs.getTimestamp("ORDERDATE").toLocalDateTime(),
+                    rs.getTimestamp("DUEDATE").toLocalDateTime(),
+                    rs.getInt("QTY"),
+                    rs.getString("NOTE")
+            );
+        }
+    }
+
+    // 설비 및 공정 조회 - [1] 설비상세조회
+    public List<Seq> SeqList() {
+        String query = "SELECT * FROM MES_SEQ_TABLE";
+        return jdbcTemplate.query(query, new SeqRowMapper());
+    }
+
+    private static class SeqRowMapper implements RowMapper<Seq> {
+        @Override
+        public Seq mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Seq(
+                    rs.getString("SEQNO"),
+                    rs.getString("SEQNAME"),
+                    rs.getString("SEQOR"),
+                    rs.getString("NOTE")
+            );
+        }
+    }
+    // 설비 및 공정 조회 - [2] 설비로그조회
+    public List<Fdclog> FdclogList() {
+        String query = "SELECT * FROM MES_FDCLOG_TABLE";
+        return jdbcTemplate.query(query, new FdclogRowMapper());
+    }
+
+    private static class FdclogRowMapper implements RowMapper<Fdclog> {
+        @Override
+        public Fdclog mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Fdclog(
+                    rs.getInt("LOGNO"),
+                    rs.getString("SEQNO"),
+                    rs.getString("PARAMNO"),
+                    rs.getDouble("PARAM_VALUE"),
+                    rs.getTimestamp("LOG_TIME").toLocalDateTime()
+            );
+        }
+    }
+    // 설비 및 공정 조회 - [3] 설비이상감지이력조회
+    public List<Fdcfault> FdcfaultList() {
+        String query = "SELECT * FROM MES_FDCFAULT_TABLE";
+        return jdbcTemplate.query(query, new FdcfaultRowMapper());
+    }
+
+    private static class FdcfaultRowMapper implements RowMapper<Fdcfault> {
+        @Override
+        public Fdcfault mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Fdcfault(
+                    rs.getInt("FAULTNO"),
+                    rs.getInt("LOGNO"),
+                    rs.getString("SEQNO"),
+                    rs.getString("FAULTCODE"),
+                    rs.getString("FAULTMSG"),
+                    rs.getTimestamp("FAULTTIME").toLocalDateTime()
+            );
+        }
+    }
+
+    // 설비 및 공정 조회 - [4] 설비 공정 조회
+    public List<Froc> FrocList() {
+        String query = "SELECT * FROM MES_FROC_TABLE";
+        return jdbcTemplate.query(query, new FrocRowMapper());
+    }
+
+    private static class FrocRowMapper implements RowMapper<Froc> {
+        @Override
+        public Froc mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Froc(
+                    rs.getInt("PROCNO"),
+                    rs.getString("SEQNO"),
+                    rs.getString("PROCNAME")
+            );
+        }
+    }
+
+    // 재고상태조회
+    public List<Inv> InvList() {
+        String query = "SELECT * FROM MES_INV_TABLE";
+        return jdbcTemplate.query(query, new InvRowMapper());
+    }
+
+    private static class InvRowMapper implements RowMapper<Inv> {
+        @Override
+        public Inv mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Inv(
+                    rs.getInt("INVNO"),
+                    rs.getInt("PRODNO"),
+                    rs.getInt("QTY"),
+                    rs.getString("LOCATION"),
+                    rs.getTimestamp("UPDATE_DATE").toLocalDateTime()
+            );
+        }
+    }
+
+    // 출고기록조회
+    public List<Deli> DeliList() {
+        String query = "SELECT * FROM MES_DELI_TABLE";
+        return jdbcTemplate.query(query, new DeliRowMapper());
+    }
+
+    private static class DeliRowMapper implements RowMapper<Deli> {
+        @Override
+        public Deli mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Deli(
+                    rs.getInt("DELINO"),
+                    rs.getInt("INVNO"),
+                    rs.getInt("DELIQTY"),
+                    rs.getString("LOC"),
+                    rs.getTimestamp("DELIDATE").toLocalDateTime(),
+                    rs.getString("NOTE")
+            );
+        }
+    }
+
+    // 제품 삭제
+    public boolean deleteProd(Prod prod) {
+        int result = 0;
+        String query = "DELETE FROM PROD WHERE PRODNO = ?";
+        try {
+            result = jdbcTemplate.update(query, prod.getProdno());
+        } catch (Exception e) {
+            log.error("제품 정보 삭제 실패 : {}", e.getMessage());
+        }
+        return result > 0;
+    }
 }
+
+//        // 이름 수정
+//    public boolean updateNameMember(Member member) {
+//        int result = 0;
+//        String query = "UPDATE member SET NAME = ? WHERE EMAIL = ?";
+//        try {
+//            result = jdbcTemplate.update(query, member.getName() , member.getEmail());
+//        } catch (Exception e){
+//            log.error("이름 수정 실패 : {}", e.getMessage());
+//        }
+//        return result > 0;
+//    }
+
+
+
+
 
 
 // 회원 등록
@@ -72,29 +298,7 @@ public class MemberDao {
 //        }
 //        return result > 0;
 //    }
-// 회원 삭제
-//    public boolean deleteMember(Member member) {
-//        int result = 0;
-//        String query = "DELETE FROM member WHERE EMAIL = ?";
-//        try {
-//            result = jdbcTemplate.update(query, member.getEmail());
-//        } catch (Exception e) {
-//            log.error("회원 정보 삭제 실패 : {}", e.getMessage());
-//        }
-//        return result > 0;
-//    }
 
-//    // 이름 수정
-//    public boolean updateNameMember(Member member) {
-//        int result = 0;
-//        String query = "UPDATE member SET NAME = ? WHERE EMAIL = ?";
-//        try {
-//            result = jdbcTemplate.update(query, member.getName() , member.getEmail());
-//        } catch (Exception e){
-//            log.error("이름 수정 실패 : {}", e.getMessage());
-//        }
-//        return result > 0;
-//    }
 
 // 비밀번호 수정
 //    public boolean updatePwdMember(Member member) {

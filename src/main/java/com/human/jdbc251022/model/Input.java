@@ -19,48 +19,40 @@ public class Input {
     public void checkTable() { // 조회
         while (true) {
             System.out.println("조회할 메뉴를 고르세요");
-            System.out.print("[1]부서 [2]사원 [3]제품 [4]작업실적 [5]작업지시 [6]설비 및 공정 조회 [7]재고상태 [8]출고기록");
+            System.out.println("[1]부서 [2]사원 [3]제품 [4]작업실적 [5]작업지시 [6]설비 및 공정 조회 [7]재고상태 [8]출고기록");
+            System.out.print("입력 : ");
             int c = sc.nextInt();
                 switch (c) {
                     case 1:
-                        System.out.println("조회할 부서를 선택해 주세요");
-                        System.out.println("[1]총괄 관리부 [2]생산관리부 [3]품질관리부 [4]설비관리부 [5]자재관리부 [6]물류관리부");
-                        System.out.print("입력 : ");
-                        int deptC = sc.nextInt();
-                        switch (deptC){
-                            case 1:
-                                List<dept> memberList1 = memberDao.DeptList1();
-                                for (dept emp1 : memberList1) System.out.println(emp1);
-                                break;
-                            case 2:
-                                break;
-                            case 3:
-
-                            case 4:
-
-                            case 5:
-
-                            case 6:
-
-                            default:System.out.println("다시 선택해 주세요");
-                        }
+                        DeptTotalList();
                         break;
                     case 2: // 사원
                         List<Emp> memberList = memberDao.EmpList();
                         for (Emp emp : memberList) System.out.println(emp);
                         break;
-                    case 3:
-
-                    case 4:
-
-                    case 5:
-
-                    case 6:
-
-                    case 7:
-
-                    case 8:
-
+                    case 3: // 제품
+                        List<Prod> prodList = memberDao.ProdList();
+                        for (Prod prod : prodList) System.out.println(prod);
+                        break;
+                    case 4: // 작업실적조회
+                        List<Perf> perfList = memberDao.PerfList();
+                        for (Perf perf : perfList) System.out.println(perf);
+                        break;
+                    case 5: // 작업지시조회
+                        List<Wo> woList = memberDao.WoList();
+                        for (Wo wo : woList) System.out.println(wo);
+                        break;
+                    case 6: // 설비 및 공정 조회
+                        SeqTotalList();
+                        break;
+                    case 7: // 재고상태 조회
+                        List<Inv> invList = memberDao.InvList();
+                        for (Inv inv : invList) System.out.println(inv);
+                        break;
+                    case 8: // 출고기록
+                        List<Deli> deliList = memberDao.DeliList();
+                        for (Deli deli : deliList) System.out.println(deli);
+                        break;
                     case 0:
                         return;
 
@@ -69,7 +61,68 @@ public class Input {
                 }
             }
         }
+        public void SeqTotalList() {
+            System.out.println("조회할 설비 및 공정을 선택해 주세요");
+            System.out.println("[1]SEQ [2]FDCLOG [3]FDCFAULT [4]FROC");
+            System.out.print("입력 : ");
+            int c = sc.nextInt();
+
+            switch (c){
+                case 1:
+                    List<Seq> seqList = memberDao.SeqList();
+                    for (Seq seq : seqList) System.out.println(seq);
+                    break;
+                case 2:
+                    List<Fdclog> fdclogList = memberDao.FdclogList();
+                    for (Fdclog fdclog : fdclogList) System.out.println(fdclog);
+                    break;
+                case 3:
+                    List<Fdcfault> fdcfaultList = memberDao.FdcfaultList();
+                    for (Fdcfault fdcfault : fdcfaultList) System.out.println(fdcfault);
+                    break;
+                case 4:
+                    List<Froc> frocList = memberDao.FrocList();
+                    for (Froc froc : frocList) System.out.println(froc);
+                    break;
+            }
+        }
+
+        // 부서조회
+        public void DeptTotalList() {
+            System.out.println("조회할 부서를 선택해 주세요");
+            System.out.println("[1]총괄관리부 [2]생산관리부 [3]품질관리부 [4]설비관리부 [5]자재관리부 [6]물류관리부");
+            System.out.print("입력 : ");
+            int deptC = sc.nextInt();
+            switch (deptC){
+                case 1: // 총괄관리부
+                    List<Dept> deptList1 = memberDao.DeptList1();
+                    for (Dept dept : deptList1) System.out.println(dept);
+                    break;
+                case 2: // 생산관리부
+                    List<Dept> deptList2 = memberDao.DeptList2();
+                    for (Dept dept : deptList2) System.out.println(dept);
+                    break;
+                case 3: // 품질관리부
+                    List<Dept> deptList3 = memberDao.DeptList3();
+                    for (Dept dept : deptList3) System.out.println(dept);
+                    break;
+                case 4: // 설비관리부
+                    List<Dept> deptList4 = memberDao.DeptList4();
+                    for (Dept dept : deptList4) System.out.println(dept);
+                    break;
+                case 5: // 자재관리부
+                    List<Dept> deptList5 = memberDao.DeptList5();
+                    for (Dept dept : deptList5) System.out.println(dept);
+                    break;
+                case 6: // 물류관리부
+                    List<Dept> deptList6 = memberDao.DeptList6();
+                    for (Dept dept : deptList6) System.out.println(dept);
+                    break;
+                default:System.out.println("다시 선택해 주세요");
+            }
+        }
     }
+
 
 //    public void deleteMember(){ // 회원 정보 삭제
 //        System.out.println("삭제할 회원의 이메일을 입력해 주세요");
