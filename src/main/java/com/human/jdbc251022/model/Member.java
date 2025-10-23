@@ -22,5 +22,6 @@ public class Member {
                 "직책: " + job  + "\n" +
                 "입사일: " + hiredate + "\n" +
                 "상사: " + mgr + "\n";
+
     }
 }
