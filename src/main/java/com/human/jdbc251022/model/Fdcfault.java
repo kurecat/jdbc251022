@@ -1,8 +1,5 @@
 package com.human.jdbc251022.model;
-import lombok.*;
 import java.time.LocalDateTime;
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
-
 
 public class Fdcfault {
     private int faultno; // 오류번호

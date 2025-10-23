@@ -1,7 +1,5 @@
 package com.human.jdbc251022.model;
-import lombok.*;
 import java.time.LocalDateTime;
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
 
 // ---- 재고상태조회 ----
 public class Inv {

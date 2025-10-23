@@ -1,7 +1,5 @@
 package com.human.jdbc251022.model;
-import lombok.*;
 import java.time.LocalDateTime;
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
 
 public class Fdclog {
     private int logno; // 로그번호
