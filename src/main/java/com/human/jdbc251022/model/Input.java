@@ -21,7 +21,7 @@ public class Input {
     public void insertTable() {
         while (true){
             System.out.println("등록할 메뉴를 고르세요");
-            System.out.println("[1]부서 [2]사원 [3]제품 [4]작업실적 [5]작업지시 [6]설비 및 공정 조회 [7]재고상태 [8]출고기록 [9]종료 [0]뒤로가기");
+            System.out.println("[1]부서 [2]사원 [3]제품 [4]작업실적 [5]작업지시 [6]설비 및 공정 [7]재고상태 [8]출고기록 [9]종료 [0]뒤로가기");
             System.out.print("입력 : ");
             int c = sc.nextInt();
             sc.nextLine();
@@ -72,7 +72,7 @@ public class Input {
     public void checkTable() { // 조회
         while (true) {
             System.out.println("조회할 메뉴를 고르세요");
-            System.out.println("[1]부서 [2]사원 [3]제품 [4]작업실적 [5]작업지시 [6]설비 및 공정 조회 [7]재고상태 [8]출고기록 [9]종료 [0]뒤로가기");
+            System.out.println("[1]부서 [2]사원 [3]제품 [4]작업실적 [5]작업지시 [6]설비 및 공정 [7]재고상태 [8]출고기록 [9]종료 [0]뒤로가기");
             System.out.print("입력 : ");
             int c = sc.nextInt();
             switch (c) {
@@ -120,7 +120,7 @@ public class Input {
     public void updateTable() {
         while (true){
             System.out.println("수정할 메뉴를 고르세요");
-            System.out.println("[1]부서 [2]사원 [3]제품 [4]작업실적 [5]작업지시 [6]설비 및 공정 조회 [7]재고상태 [8]출고기록 [9]종료 [0]뒤로가기");
+            System.out.println("[1]부서 [2]사원 [3]제품 [4]작업실적 [5]작업지시 [6]설비 및 공정 [7]재고상태 [8]출고기록 [9]종료 [0]뒤로가기");
             System.out.print("입력 : ");
             int c = sc.nextInt();
 
@@ -154,7 +154,7 @@ public class Input {
     // 설비조회
     public void SeqTotalList() {
         System.out.println("조회할 설비 및 공정을 선택해 주세요");
-        System.out.println("[1]SEQ [2]FDCLOG [3]FDCFAULT [4]FROC");
+        System.out.println("[1]설비상세(SEQ) [2]설비로그(FDCLOG) [3]설비이상감지이력(FDCFAULT) [4](설비공정)PROC");
         System.out.print("입력 : ");
         int c = sc.nextInt();
 
@@ -182,6 +182,10 @@ public class Input {
         List<ComWorkOrder> comWorkOrders = memberDao.findComWorkOrder();
         for (ComWorkOrder comWorkOrder : comWorkOrders) System.out.println(comWorkOrder);
     }
+
+
+
+    // - - - - - - - - - - - - - - - 등 록 - - - - - - - - - - - - - - -
 
     // 사원 등록
     public void regEmp() {
@@ -433,6 +437,10 @@ public class Input {
         System.out.println("출고기록등록 : " + (inSuccess ? "성공" : "실패"));
     }
 
+
+    // - - - - - - - - - - - - - - - 수 정 - - - - - - - - - - - - - - -
+
+    // 부서정보 수정
     public void upDept(){
         System.out.println("======= 부서정보 수정 =======");
         System.out.println("수정할 부서의 번호를 입력하세요.");
@@ -451,6 +459,7 @@ public class Input {
         System.out.println("부서 정보 수정 : " + (isSuccess ? "성공" : "실패"));
     }
 
+    // 출고정보 수정
     public void upDELI(){
         System.out.println("======= 출고정보 수정 =======");
         System.out.println("수정할 출고의 번호를 입력하세요.");
