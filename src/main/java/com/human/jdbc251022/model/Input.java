@@ -8,6 +8,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.prefs.PreferenceChangeEvent;
+
 @Component
 
 public class Input {
@@ -136,7 +138,8 @@ public class Input {
                     upProd();
                     break;
                 case 4:
-
+                    upPerf();
+                    break;
                 case 5:
 
                 case 6:
@@ -455,7 +458,7 @@ public class Input {
         idept.setDeptno(c);
 
         boolean isSuccess = false;
-        System.out.print("새로운 부서명을 입력해주세요: ");
+        System.out.print("변경할 부서명을 입력해주세요: ");
         String newDeptname = sc.nextLine();
         idept.setDeptname(newDeptname);
         isSuccess = memberDao.updateDept(idept);
@@ -473,16 +476,16 @@ public class Input {
         Emp emp = new Emp();
         emp.setEmpno(c);
 
-        System.out.print("새로운 사원 이름을 입력해주세요: ");
+        System.out.print("변경할 사원 이름을 입력해주세요: ");
         String newename = sc.nextLine();
         emp.setEname(newename);
 
-        System.out.print("새로운 직책을 입력해주세요: ");
+        System.out.print("변경할 직책을 입력해주세요: ");
         String newjob = sc.nextLine();
         emp.setJob(newjob);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
-        System.out.print("새로운 입사일을 입력해주세요(DD/MM/YY): ");
+        System.out.print("변경할 입사일을 입력해주세요(DD/MM/YY): ");
         String dateInput = sc.nextLine();
         LocalDate update_date = LocalDate.parse(dateInput, formatter);
         emp.setHiredate(update_date);
@@ -492,7 +495,7 @@ public class Input {
     }
 
     // 제품 수정 - - - - - ★ - - - - - ★ - - - - - ★ - - - - - ★ - - - - -
-    // 오류 !! SPCE(완제품 or 자재) UNIT(개 or T) 또 거꾸로 나오는 이슈 해결 필요
+    // 오류 !! SPCE(완제품 or 자재) UNIT(개 or T) 또 거꾸로 나오는 이슈 해결 필요 / 나머지는 정상 작동
     public void upProd(){
         System.out.println("======= 제품정보 수정 =======");
         System.out.println("수정할 제품의 번호를 입력하세요.");
@@ -503,20 +506,51 @@ public class Input {
         Prod prod = new Prod();
         prod.setProdno(c);
 
-        System.out.print("새로운 제품 이름을 입력해주세요: ");
+        System.out.print("변경할 제품 이름을 입력해주세요: ");
         String neweprodname = sc.nextLine();
         prod.setProdname(neweprodname);
 
-        System.out.print("새로운 제품 사양(완제품 or 자재)을 입력해주세요: ");
+        System.out.print("변경할 제품 사양(완제품 or 자재)을 입력해주세요: ");
         String newspce = sc.nextLine();
         prod.setSpce(newspce);
 
-        System.out.print("새로운 제품 단위(개 or T)를 입력해주세요: ");
+        System.out.print("변경할 제품 단위(개 or T)를 입력해주세요: ");
         String newunit = sc.nextLine();
         prod.setSpce(newunit);
 
         boolean isSuccess = memberDao.updateProd(prod);
-        System.out.println("사원 정보 수정 : " + (isSuccess ? "성공" : "실패"));
+        System.out.println("제품 정보 수정 : " + (isSuccess ? "성공" : "실패"));
+    }
+
+    // 작업실적 수정
+    // 오류 발생, try catch 문을 사용해야될 것 같음
+    public void upPerf(){
+        System.out.println("======= 작업 실적 수정 =======");
+        System.out.println("변경할 실적번호를 입력하세요.");
+        System.out.print("입력 : ");
+        int c = sc.nextInt();
+        sc.nextLine();
+
+        Perf perf = new Perf();
+        perf.setPerfno(c);
+
+        System.out.print("변경할 수량을 입력해주세요: ");
+        int newqty = sc.nextInt();
+        perf.setQty(newqty);
+        sc.nextLine();
+
+        System.out.print("변경할 불량수량을 입력해주세요: ");
+        int newqtydefect = sc.nextInt();
+        perf.setQtydefect(newqtydefect);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        System.out.print("변경할 실적일자를 입력해주세요(DD/MM/YY): ");
+        String dateInput = sc.nextLine();
+        LocalDate update_date = LocalDate.parse(dateInput, formatter);
+        perf.setPerfdate(update_date);
+
+        boolean isSuccess = memberDao.updatePerf(perf);
+        System.out.println("작업 실적 정보 수정 : " + (isSuccess ? "성공" : "실패"));
     }
 
 
@@ -531,22 +565,22 @@ public class Input {
         Deli deli = new Deli();
         deli.setDelino(c);
 
-        System.out.print("새로운 수량을 입력해주세요: ");
+        System.out.print("변경할 수량을 입력해주세요: ");
         int newqty = sc.nextInt();
         sc.nextLine();
         deli.setQty(newqty);
 
-        System.out.print("새로운 도착지를 입력해주세요: ");
+        System.out.print("변경할 도착지를 입력해주세요: ");
         String newloc = sc.nextLine();
         deli.setLoc(newloc);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
-        System.out.print("새로운 출고일자를 입력해주세요(DD/MM/YY): ");
+        System.out.print("변경할 출고일자를 입력해주세요(DD/MM/YY): ");
         String dateInput = sc.nextLine();
         LocalDate update_date = LocalDate.parse(dateInput, formatter);
         deli.setDelidate(update_date);
 
-        System.out.print("새로운 비고를 입력해주세요: ");
+        System.out.print("변경할 비고를 입력해주세요: ");
         String note = sc.nextLine();
         deli.setNote(note);
 
