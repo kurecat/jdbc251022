@@ -178,6 +178,11 @@ public class Input {
         }
     }
 
+    public void cwr() {
+        List<ComWorkOrder> comWorkOrders = memberDao.findComWorkOrder();
+        for (ComWorkOrder comWorkOrder : comWorkOrders) System.out.println(comWorkOrder);
+    }
+
     // 사원 등록
     public void regEmp() {
         System.out.println("======= 사원 등록 =======");
@@ -478,5 +483,4 @@ public class Input {
         boolean isSuccess = memberDao.updateDeli(deli);
         System.out.println("출고 정보 수정 : " + (isSuccess ? "성공" : "실패"));
     }
-
 }

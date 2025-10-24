@@ -473,5 +473,41 @@ public class MemberDao {
 
         return result > 0;
     }
+
+
+    public List<ComWorkOrder> findComWorkOrder() {
+        String query = """
+        SELECT
+            W.WONO AS "작업지시번호",
+            P.PRODNAME AS "제품명",
+            W.QTY AS "목표수량",
+            TO_CHAR(W.ORDERDATE, 'YY-MM-DD') AS "지시일",
+            TO_CHAR(W.DUEDATE, 'YY-MM-DD') AS "완료예정일"
+        FROM
+            MES_WO_TABLE W
+        JOIN
+            MES_PROD_TABLE P ON W.PRODNO = P.PRODNO
+        WHERE
+            W.NOTE LIKE '%달성%'
+        ORDER BY W.WONO
+        """;
+
+        return jdbcTemplate.query(query, new CompletedWorkOrderRowMapper());
+    }
+
+    private static class CompletedWorkOrderRowMapper implements RowMapper<ComWorkOrder> {
+        @Override
+        public ComWorkOrder mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new ComWorkOrder(
+                    rs.getString("작업지시번호"),  // SELECT AS "작업지시번호"
+                    rs.getString("제품명"),       // SELECT AS "제품명"
+                    rs.getInt("목표수량"),         // SELECT AS "목표수량"
+                    rs.getString("지시일"),         // SELECT AS "지시일"
+                    rs.getString("완료예정일")      // SELECT AS "완료예정일"
+            );
+        }
+    }
+
+
 }
 
