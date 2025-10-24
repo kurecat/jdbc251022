@@ -1,6 +1,5 @@
 package com.human.jdbc251022.model;
 
-import com.human.jdbc251022.dao.MemberDao;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;

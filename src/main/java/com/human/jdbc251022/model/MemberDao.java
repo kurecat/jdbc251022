@@ -1,6 +1,5 @@
-package com.human.jdbc251022.dao;
+package com.human.jdbc251022.model;
 
-import com.human.jdbc251022.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
