@@ -17,41 +17,6 @@ import java.util.List;
 public class MemberDao {
     private final JdbcTemplate jdbcTemplate;
 
-    // 사원 조회
-    public List<Emp> EmpList() {
-        String query = "SELECT * FROM MES_EMP_TABLE";
-        return jdbcTemplate.query(query, new EmpRowMapper());
-    }
-    private static class EmpRowMapper implements RowMapper<Emp> {
-        @Override
-        public Emp mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Emp(
-                    rs.getInt("EMPNO"),
-                    rs.getInt("DEPTNO"),
-                    rs.getString("ENAME"),
-                    rs.getString("JOB"),
-                    rs.getTimestamp("HIREDATE").toLocalDateTime().toLocalDate(),
-                    rs.getInt("MGR")
-            );
-        }
-    }
-
-    // 전체부서조회
-    public List<iDept> iDeptList(){
-        String query = "SELECT * FROM MES_DEPT_TABLE";
-        return jdbcTemplate.query(query, new ideptRowMapper());
-    }
-
-    private static class ideptRowMapper implements RowMapper<iDept> {
-        @Override
-        public iDept mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new iDept(
-                    rs.getInt("DEPTNO"),
-                    rs.getString("DEPTNAME")
-            );
-        }
-    }
-
     private static class deptRowMapper implements RowMapper<Dept> {
         @Override
         public Dept mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -230,30 +195,6 @@ public class MemberDao {
         }
     }
 
-    // 부서 등록
-    public boolean insertDept(iDept idept){
-        int result = 0;
-        String query = "INSERT INTO MES_DEPT_TABLE(DEPTNO, DEPTNAME) VALUES(?, ?)";
-        try {
-            result = jdbcTemplate.update(query, idept.getDeptno(), idept.getDeptname());
-        } catch (Exception e) {
-            log.error("부서 정보 등록 실패");
-        }
-        return result > 0;
-    }
-
-    // 사원 등록
-    public boolean insertEmp(Emp emp) {
-        int result = 0;
-        String query = "INSERT INTO MES_EMP_TABLE(EMPNO, DEPTNO, ENAME, \"JOB\", HIREDATE, MGR) VALUES(?, ?, ?, ?, SYSDATE, ?)";
-        try {
-            result = jdbcTemplate.update(query,emp.getEmpno(), emp.getDeptno(), emp.getEmpno(), emp.getJob(), emp.getMgr());
-        } catch (Exception e) {
-            log.error("사원 정보 등록 실패 : {}", e.getMessage());
-        }
-        return result > 0;
-    }
-
     //제품 등록
     public boolean insertProd(Prod prod) {
         int result = 0;
@@ -338,7 +279,6 @@ public class MemberDao {
         return result > 0;
     }
 
-    // 출고 수정
     // 출고기록수정 DELI
     public boolean updateDeli(Deli deli) {
         String sql = "UPDATE MES_DELI_TABLE SET DELIQTY = ?, LOC = ?, DELIDATE = ?, NOTE = ? WHERE DELINO = ?";
@@ -373,22 +313,22 @@ public class MemberDao {
         } catch (Exception e) {
             // 5. (수정) catch 블록에 로그 추가
             log.error("공정순서 수정 실패 (seqno: {}): {}", seq.getSeqno(), e.getMessage());
-            e.printStackTrace();
         }
         return result > 0;
     }
 
     // 설비 및 공정 조회 [4] 설비 공정 조회 수정
-    public boolean updateProc(Proc Proc) {
-        String sql = "UPDATE MES_EMP_TABLE SET procno = ?, seqno = ? WHERE procname = ?";
-        int result = 0;
-        try {
-            jdbcTemplate.update(sql, Proc.getProcno(), Proc.getSeqno(), Proc.getProcname());
-
-        } catch (Exception e) {
-        }
-        return result > 0;
-    }
+//    public boolean updateProc(Proc Proc) {
+//        String sql = "UPDATE MES_EMP_TABLE SET procno = ?, seqno = ? WHERE procname = ?";
+//        int result = 0;
+//        try {
+//            jdbcTemplate.update(sql, Proc.getProcno(), Proc.getSeqno(), Proc.getProcname());
+//
+//        } catch (Exception e) {
+//
+//        }
+//        return result > 0;
+//    }
 
     // 작업 실적조회 수정
     public boolean updatePerf(Perf perf) {
@@ -417,62 +357,43 @@ public class MemberDao {
         return result > 0;
     }
 
-    // 사원 수정 코드
-    public boolean updateEmp(Emp emp) {
-        String sql = "UPDATE MES_EMP_TABLE SET " +
-                "deptno = ?, ename = ?, job = ?, hiredate = ?, mgr = ? " +
-                "WHERE empno = ?";
-        int result = 0;
-        try {
-            result = jdbcTemplate.update(sql,
-                    emp.getDeptno(),    // 1. (for deptno = ?)
-                    emp.getEname(),     // 2. (for ename = ?)
-                    emp.getJob(),       // 3. (for job = ?)
-                    emp.getHiredate(),  // 4. (for hiredate = ?)
-                    emp.getMgr(),       // 5. (for mgr = ?)
-                    emp.getEmpno()      // 6. (for WHERE empno = ?)
-            );
-        } catch (Exception e) {
-            log.error("사원 정보 수정 실패 (empno: {}): {}", emp.getEmpno(), e.getMessage());
-            // e.printStackTrace();
-        }
-        return result > 0;
-    }
-
     // 작업지시 수정 코드
-    public boolean updateWo(Wo wo) {
-        String sql = "UPDATE MES_WO_TABLE SET prodno = ?, prodcno = ?, orderdate = ?, duedate = ?, qty = ?, note = ? WHERE wono = ?";
-        int result = 0;
-        try {
-            result = jdbcTemplate.update (sql,
-                    wo.getProdno(),
-                    wo.getProcno(),
-                    wo.getOrderdate(),
-                    wo.getDuedate(),
-                    wo.getQty(),
-                    wo.getNote(),
-                    wo.getWono());
-        } catch (Exception e) {
-        }
-        return result > 0;
-    }
+//    public boolean updateWo(Wo wo) {
+//        String sql = "UPDATE MES_WO_TABLE SET prodno = ?, prodcno = ?, orderdate = ?, duedate = ?, qty = ?, note = ? WHERE wono = ?";
+//        int result = 0;
+//        try {
+//            result = jdbcTemplate.update (sql,
+//                    wo.getProdno(),
+//                    wo.getProcno(),
+//                    wo.getOrderdate(),
+//                    wo.getDuedate(),
+//                    wo.getQty(),
+//                    wo.getNote(),
+//                    wo.getWono());
+//        } catch (Exception e) {
+//        }
+//        return result > 0;
+//    }
 
-    //부서 수정 코드
-    public boolean updateDept(iDept idept) {
-        String sql = "UPDATE MES_DEPT_TABLE SET deptname = ? WHERE DEPTNO = ?";
-        int result = 0;
 
+    // 제품 수정 코드
+    public boolean updateProd(Prod prod) {
+        String sql = "UPDATE MES_PROD_TABLE SET PRODNAME = ?, SPCE = ?, UNIT = ? WHERE PRODNO = ?";
+
+        int result = 0;
         try {
             result = jdbcTemplate.update(sql,
-                    idept.getDeptname(),
-                    idept.getDeptno()
+                    prod.getProdname(),
+                    prod.getSpce(),
+                    prod.getUnit(),
+                    prod.getProdno()
             );
         } catch (Exception e) {
-            log.error("부서 수정 실패 : {}", e.getMessage());
+            log.error("제품정보 수정 실패 : {}", e.getMessage());
         }
-
         return result > 0;
     }
+
 
 
     public List<ComWorkOrder> findComWorkOrder() {

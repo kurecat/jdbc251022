@@ -27,10 +27,9 @@ public class Input {
             sc.nextLine();
             switch (c) {
                 case 1:
-                    regDept();
+
                     break;
                 case 2:
-                    regEmp();
                     break;
                 case 3:
                     regProd();
@@ -77,12 +76,9 @@ public class Input {
             int c = sc.nextInt();
             switch (c) {
                 case 1:
-                    List<iDept> iDeptList = memberDao.iDeptList();
-                    for (iDept iDept : iDeptList) System.out.print(iDept);
                     break;
-                case 2: // 사원
-                    List<Emp> memberList = memberDao.EmpList();
-                    for (Emp emp : memberList) System.out.println(emp);
+                case 2: // 사
+
                     break;
                 case 3: // 제품
                     List<Prod> prodList = memberDao.ProdList();
@@ -126,12 +122,12 @@ public class Input {
 
             switch (c){
                 case 1:
-                    upDept();
+
                     break;
                 case 2:
-
                 case 3:
-
+                    upProd();
+                    break;
                 case 4:
 
                 case 5:
@@ -183,32 +179,6 @@ public class Input {
         for (ComWorkOrder comWorkOrder : comWorkOrders) System.out.println(comWorkOrder);
     }
 
-    // 사원 등록
-    public void regEmp() {
-        System.out.println("======= 사원 등록 =======");
-        System.out.print("사원번호(4자리수): ");
-        int empno = sc.nextInt();
-
-        System.out.print("부서번호(4자리수): ");
-        int deptno = sc.nextInt();
-        sc.nextLine();
-
-        System.out.print("사원명: ");
-        String ename = sc.nextLine();
-
-        System.out.print("직책: ");
-        String job = sc.nextLine();
-
-        System.out.print("상사번호: ");
-        int mgr = sc.nextInt();
-        sc.nextLine();
-
-        Emp emp = new Emp(empno ,deptno, ename, job, mgr);
-
-        boolean inSuccess =  memberDao.insertEmp(emp);
-        System.out.println("사원 등록 : " + (inSuccess ? "성공" : "실패"));
-    }
-
     // 제품 등록
     public void regProd() {
         System.out.println("======= 제품 등록 =======");
@@ -232,20 +202,7 @@ public class Input {
         System.out.println("제품 등록 : " + (inSuccess ? "성공" : "실패"));
     }
 
-    // 부서 등록
-    public void regDept() {
-        System.out.println("======= 부서 등록 =======");
-        System.out.print("부서번호(4자리수): ");
-        int deptno = sc.nextInt();
-        sc.nextLine();
 
-        System.out.print("부서이름: ");
-        String deptname = sc.nextLine();
-
-        iDept idetp = new iDept(deptno, deptname);
-        boolean inSuccess = memberDao.insertDept(idetp);
-        System.out.println("제품 등록 : " + (inSuccess ? "성공" : "실패"));
-    }
 
     // 실적 등록
     public void regPerf() {
@@ -433,24 +390,8 @@ public class Input {
         System.out.println("출고기록등록 : " + (inSuccess ? "성공" : "실패"));
     }
 
-    public void upDept(){
-        System.out.println("======= 부서정보 수정 =======");
-        System.out.println("수정할 부서의 번호를 입력하세요.");
-        System.out.print("입력 : ");
-        int c = sc.nextInt();
-        sc.nextLine();
 
-        iDept idept = new iDept();
-        idept.setDeptno(c);
-
-        boolean isSuccess = false;
-        System.out.print("새로운 부서이름을 입력해주세요: ");
-        String newDeptname = sc.nextLine();
-        idept.setDeptname(newDeptname);
-        isSuccess = memberDao.updateDept(idept);
-        System.out.println("부서 정보 수정 : " + (isSuccess ? "성공" : "실패"));
-    }
-
+    // 출고 정보 수정
     public void upDELI(){
         System.out.println("======= 출고정보 수정 =======");
         System.out.println("수정할 출고의 번호를 입력하세요.");
@@ -483,4 +424,33 @@ public class Input {
         boolean isSuccess = memberDao.updateDeli(deli);
         System.out.println("출고 정보 수정 : " + (isSuccess ? "성공" : "실패"));
     }
+    // 사원 정보 수정
+
+    // 제품 수정
+    public void upProd(){
+        System.out.println("======= 제품정보 수정 =======");
+        System.out.println("수정할 제품의 번호를 입력하세요.");
+        System.out.print("입력 : ");
+        int c = sc.nextInt();
+        sc.nextLine();
+
+        Prod prod = new Prod();
+        prod.setProdno(c);
+
+        System.out.print("변경할 제품 이름을 입력해주세요: ");
+        String newprodname = sc.nextLine();
+        prod.setProdname(newprodname);
+
+        System.out.print("변경할 제품 사양(완제품 or 자재)을 입력해주세요: ");
+        String newspce = sc.nextLine();
+        prod.setSpce(newspce);
+
+        System.out.print("변경할 제품 단위(개 or T)를 입력해주세요: ");
+        String newunit = sc.nextLine();
+        prod.setUnit(newunit);
+
+        boolean isSuccess = memberDao.updateProd(prod);
+        System.out.println("제품 정보 수정 : " + (isSuccess ? "성공" : "실패"));
+    }
+
 }
