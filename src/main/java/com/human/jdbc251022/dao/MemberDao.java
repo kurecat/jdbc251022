@@ -436,6 +436,7 @@ public class MemberDao {
         return result > 0;
     }
 
+
     // 설비 및 공정 [4] 설비 공정 수정
     public boolean updateProc(Proc Proc) {
         String sql = "UPDATE MES_EMP_TABLE SET procno = ?, seqno = ? WHERE procname = ?";
