@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 @Component
@@ -132,7 +133,8 @@ public class Input {
                     upEmp();
                     break;
                 case 3:
-
+                    upProd();
+                    break;
                 case 4:
 
                 case 5:
@@ -463,7 +465,7 @@ public class Input {
     // 사원 수정 - - - - - ★ - - - - - ★ - - - - - ★ - - - - - ★ - - - - - 오류 해결 필요!!
     public void upEmp(){
         System.out.println("======= 사원정보 수정 =======");
-        System.out.println("수정할 사원의 사원번호를 입력하세요.");
+        System.out.println("수정할 사원의 번호를 입력하세요.");
         System.out.print("입력 : ");
         int c = sc.nextInt();
         sc.nextLine();
@@ -473,7 +475,6 @@ public class Input {
 
         System.out.print("새로운 사원 이름을 입력해주세요: ");
         String newename = sc.nextLine();
-        sc.nextLine();
         emp.setEname(newename);
 
         System.out.print("새로운 직책을 입력해주세요: ");
@@ -487,6 +488,34 @@ public class Input {
         emp.setHiredate(update_date);
 
         boolean isSuccess = memberDao.updateEmp(emp);
+        System.out.println("사원 정보 수정 : " + (isSuccess ? "성공" : "실패"));
+    }
+
+    // 제품 수정 - - - - - ★ - - - - - ★ - - - - - ★ - - - - - ★ - - - - -
+    // 오류 !! SPCE(완제품 or 자재) UNIT(개 or T) 또 거꾸로 나오는 이슈 해결 필요
+    public void upProd(){
+        System.out.println("======= 제품정보 수정 =======");
+        System.out.println("수정할 제품의 번호를 입력하세요.");
+        System.out.print("입력 : ");
+        int c = sc.nextInt();
+        sc.nextLine();
+
+        Prod prod = new Prod();
+        prod.setProdno(c);
+
+        System.out.print("새로운 제품 이름을 입력해주세요: ");
+        String neweprodname = sc.nextLine();
+        prod.setProdname(neweprodname);
+
+        System.out.print("새로운 제품 사양(완제품 or 자재)을 입력해주세요: ");
+        String newspce = sc.nextLine();
+        prod.setSpce(newspce);
+
+        System.out.print("새로운 제품 단위(개 or T)를 입력해주세요: ");
+        String newunit = sc.nextLine();
+        prod.setSpce(newunit);
+
+        boolean isSuccess = memberDao.updateProd(prod);
         System.out.println("사원 정보 수정 : " + (isSuccess ? "성공" : "실패"));
     }
 

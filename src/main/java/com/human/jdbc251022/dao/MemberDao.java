@@ -396,16 +396,14 @@ public class MemberDao {
     // 사원 수정 코드
     public boolean updateEmp(Emp emp) {
         String sql = "UPDATE MES_EMP_TABLE SET " +
-                "deptno = ?, ename = ?, job = ?, hiredate = ?, mgr = ? " +
+                "ename = ?, job = ?, hiredate = ?" +
                 "WHERE empno = ?";
         int result = 0;
         try {
             result = jdbcTemplate.update(sql,
-                    emp.getDeptno(),    // 1. (for deptno = ?)
                     emp.getEname(),     // 2. (for ename = ?)
                     emp.getJob(),       // 3. (for job = ?)
                     emp.getHiredate(),  // 4. (for hiredate = ?)
-                    emp.getMgr(),       // 5. (for mgr = ?)
                     emp.getEmpno()      // 6. (for WHERE empno = ?)
             );
         } catch (Exception e) {
@@ -415,39 +413,26 @@ public class MemberDao {
         return result > 0;
     }
 
-
-    // 설비 및 공정  [1] 설비상세 수정
-    public boolean updateSeq(Seq seq) {
-        String sql = "UPDATE MES_SEQ_TABLE SET SEQNAME = ?, SEQOR = ?, NOTE = ? WHERE SEQNO = ?";
+    // 제품 수정 코드
+    public boolean updateProd(Prod prod) {
+        String sql = "UPDATE MES_PROD_TABLE SET " +
+                "prodname = ?, spce = ?, unit = ?" +
+                "WHERE prodno = ?";
         int result = 0;
         try {
-            // 4. (수정) 파라미터 순서를 SQL의 ? 순서에 맞게 변경
             result = jdbcTemplate.update(sql,
-                    seq.getSeqname(),
-                    seq.getSeqor(),
-                    seq.getNote(),
-                    seq.getSeqno()
+                    prod.getProdname(),
+                    prod.getSpce(),
+                    prod.getUnit(),
+                    prod.getProdno()
             );
         } catch (Exception e) {
-            // 5. (수정) catch 블록에 로그 추가
-            log.error("공정순서 수정 실패 (seqno: {}): {}", seq.getSeqno(), e.getMessage());
-            e.printStackTrace();
+            log.error("제품 정보 수정 실패 (empno: {}): {}", prod.getProdno(), e.getMessage());
+            // e.printStackTrace();
         }
         return result > 0;
     }
-
-
-    // 설비 및 공정 [4] 설비 공정 수정
-    public boolean updateProc(Proc Proc) {
-        String sql = "UPDATE MES_EMP_TABLE SET procno = ?, seqno = ? WHERE procname = ?";
-        int result = 0;
-        try {
-            jdbcTemplate.update(sql, Proc.getProcno(), Proc.getSeqno(), Proc.getProcname());
-
-        } catch (Exception e) {
-        }
-        return result > 0;
-    }
+    
 
     // 작업 실적 수정
     public boolean updatePerf(Perf perf) {
@@ -491,6 +476,39 @@ public class MemberDao {
                     wo.getQty(),
                     wo.getNote(),
                     wo.getWono());
+        } catch (Exception e) {
+        }
+        return result > 0;
+    }
+
+    // 설비 및 공정  [1] 설비상세 수정
+    public boolean updateSeq(Seq seq) {
+        String sql = "UPDATE MES_SEQ_TABLE SET SEQNAME = ?, SEQOR = ?, NOTE = ? WHERE SEQNO = ?";
+        int result = 0;
+        try {
+            // 4. (수정) 파라미터 순서를 SQL의 ? 순서에 맞게 변경
+            result = jdbcTemplate.update(sql,
+                    seq.getSeqname(),
+                    seq.getSeqor(),
+                    seq.getNote(),
+                    seq.getSeqno()
+            );
+        } catch (Exception e) {
+            // 5. (수정) catch 블록에 로그 추가
+            log.error("공정순서 수정 실패 (seqno: {}): {}", seq.getSeqno(), e.getMessage());
+            e.printStackTrace();
+        }
+        return result > 0;
+    }
+
+
+    // 설비 및 공정 [4] 설비 공정 수정
+    public boolean updateProc(Proc Proc) {
+        String sql = "UPDATE MES_EMP_TABLE SET procno = ?, seqno = ? WHERE procname = ?";
+        int result = 0;
+        try {
+            jdbcTemplate.update(sql, Proc.getProcno(), Proc.getSeqno(), Proc.getProcname());
+
         } catch (Exception e) {
         }
         return result > 0;
