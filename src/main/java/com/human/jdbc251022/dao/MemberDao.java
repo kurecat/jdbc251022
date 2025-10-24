@@ -437,22 +437,17 @@ public class MemberDao {
     // 작업 실적 수정
     public boolean updatePerf(Perf perf) {
         String sql = "UPDATE MES_PERF_TABLE SET " +
-                "PROCNO = ?, EMPNO = ?, WONO = ?, SEQNO = ?, QTY = ?, " +
-                "QTYDEFECT = ?, PERFDATE = ?, FARA = ?, NOTE = ? " +
+                " QTY = ?, " +
+                "QTYDEFECT = ?, PERFDATE = ? NOTE = ? " +
                 "WHERE PERFNO = ?";
         int result = 0;
         try {
             result = jdbcTemplate.update(sql,
-                    perf.getProcno(),     // 1. (for PROCNO = ?)
-                    perf.getEmpno(),      // 2. (for EMPNO = ?)
-                    perf.getWono(),       // 3. (for WONO = ?)
-                    perf.getSeqno(),      // 4. (for SEQNO = ?)
-                    perf.getQty(),        // 5. (for QTY = ?)
-                    perf.getQtydefect(),  // 6. (for QTYDEFECT = ?)
-                    perf.getPerfdate(),   // 7. (for PERFDATE = ?)
-                    perf.getFara(),       // 8. (for FARA = ?)
-                    perf.getNote(),       // 9. (for NOTE = ?)
-                    perf.getPerfno()      // 10. (for WHERE PERFNO = ?)
+                    perf.getQty(),
+                    perf.getQtydefect(),
+                    perf.getPerfdate(),
+                    perf.getNote(),
+                    perf.getPerfno()
             );
         } catch (Exception e) {
             log.error("작업실적 수정 실패 (perfno: {}): {}", perf.getPerfno(), e.getMessage());
@@ -465,12 +460,10 @@ public class MemberDao {
 
     // 작업지시 수정 코드
     public boolean updateWo(Wo wo) {
-        String sql = "UPDATE MES_WO_TABLE SET prodno = ?, prodcno = ?, orderdate = ?, duedate = ?, qty = ?, note = ? WHERE wono = ?";
+        String sql = "UPDATE MES_WO_TABLE SET orderdate = ?, duedate = ?, qty = ?, note = ? WHERE wono = ?";
         int result = 0;
         try {
             result = jdbcTemplate.update (sql,
-                    wo.getProdno(),
-                    wo.getProcno(),
                     wo.getOrderdate(),
                     wo.getDuedate(),
                     wo.getQty(),

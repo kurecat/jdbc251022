@@ -1,6 +1,7 @@
 package com.human.jdbc251022.model;
 
 import com.human.jdbc251022.dao.MemberDao;
+import com.sun.source.tree.BreakTree;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -141,7 +142,8 @@ public class Input {
                     upPerf();
                     break;
                 case 5:
-
+                    upWo();
+                    break;
                 case 6:
 
                 case 7:
@@ -465,7 +467,7 @@ public class Input {
         System.out.println("부서 정보 수정 : " + (isSuccess ? "성공" : "실패"));
     }
 
-    // 사원 수정 - - - - - ★ - - - - - ★ - - - - - ★ - - - - - ★ - - - - - 오류 해결 필요!!
+    // 사원 수정
     public void upEmp(){
         System.out.println("======= 사원정보 수정 =======");
         System.out.println("수정할 사원의 번호를 입력하세요.");
@@ -516,14 +518,13 @@ public class Input {
 
         System.out.print("변경할 제품 단위(개 or T)를 입력해주세요: ");
         String newunit = sc.nextLine();
-        prod.setSpce(newunit);
+        prod.setUnit(newunit);
 
         boolean isSuccess = memberDao.updateProd(prod);
         System.out.println("제품 정보 수정 : " + (isSuccess ? "성공" : "실패"));
     }
 
     // 작업실적 수정
-    // 오류 발생, try catch 문을 사용해야될 것 같음
     public void upPerf(){
         System.out.println("======= 작업 실적 수정 =======");
         System.out.println("변경할 실적번호를 입력하세요.");
@@ -551,6 +552,32 @@ public class Input {
 
         boolean isSuccess = memberDao.updatePerf(perf);
         System.out.println("작업 실적 정보 수정 : " + (isSuccess ? "성공" : "실패"));
+    }
+
+    // 작업 지시 수정
+    public void upWo(){
+        System.out.println("======= 작업지시 수정 =======");
+        System.out.println("수정할 작업지시번호를 입력하세요.");
+        System.out.print("입력 : ");
+        int c = sc.nextInt();
+        sc.nextLine();
+
+        Wo wo = new Wo();
+        wo.setWono(c);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        System.out.print("변경할 지시일을 입력해주세요(DD/MM/YY): ");
+        String dateInput = sc.nextLine();
+        LocalDate update_date = LocalDate.parse(dateInput, formatter);
+        wo.setOrderdate(update_date);
+
+        System.out.print("변경할 완료예정일을 입력해주세요(DD/MM/YY): ");
+        String dateInput2 = sc.nextLine();
+        LocalDate update_date2 = LocalDate.parse(dateInput2, formatter);
+        wo.setOrderdate(update_date);
+
+        boolean isSuccess = memberDao.updateWo(wo);
+        System.out.println("작업지시 정보 수정 : " + (isSuccess ? "성공" : "실패"));
     }
 
 
