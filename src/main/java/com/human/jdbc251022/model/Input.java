@@ -460,7 +460,7 @@ public class Input {
         System.out.println("부서 정보 수정 : " + (isSuccess ? "성공" : "실패"));
     }
 
-    // 사원 수정 - - - - - ★ - - - - - ★ - - - - - ★ - - - - - ★ - - - - - 오류 !!
+    // 사원 수정 - - - - - ★ - - - - - ★ - - - - - ★ - - - - - ★ - - - - - 오류 해결 필요!!
     public void upEmp(){
         System.out.println("======= 사원정보 수정 =======");
         System.out.println("수정할 사원의 사원번호를 입력하세요.");
