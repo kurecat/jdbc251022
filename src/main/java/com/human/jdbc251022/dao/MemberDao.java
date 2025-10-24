@@ -107,6 +107,7 @@ public class MemberDao {
             );
         }
     }
+
     // 설비 및 공정 조회 - [2] 설비로그조회
     public List<Fdclog> FdclogList() {
         String query = "SELECT * FROM MES_FDCLOG_TABLE";

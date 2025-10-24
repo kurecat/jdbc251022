@@ -38,6 +38,7 @@ public class ConsoleRunner implements CommandLineRunner {
                 case 7:
                     break;
                 case 0: return;
+
             }
         }
     }

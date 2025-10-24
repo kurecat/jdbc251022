@@ -120,6 +120,7 @@ public class Input {
             System.out.print("입력 : ");
             int c = sc.nextInt();
 
+
             switch (c){
                 case 1:
 
