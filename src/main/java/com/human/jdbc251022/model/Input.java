@@ -73,7 +73,8 @@ public class Input {
         }
     }
 
-    public void checkTable() { // 조회
+    // 조회 while문 - - - - - ★ - - - - - ★ - - - - - ★ - - - - - ★ - - - - - ★
+    public void checkTable() {
         while (true) {
             System.out.println("조회할 메뉴를 고르세요");
             System.out.println("[1]부서 [2]사원 [3]제품 [4]작업실적 [5]작업지시 [6]설비 및 공정 [7]재고상태 [8]출고기록 [9]종료 [0]뒤로가기");
@@ -121,6 +122,7 @@ public class Input {
         }
     }
 
+    // 수정 while문 - - - - - ★ - - - - - ★ - - - - - ★ - - - - - ★ - - - - - ★
     public void updateTable() {
         while (true){
             System.out.println("수정할 메뉴를 고르세요");
@@ -147,7 +149,8 @@ public class Input {
                 case 6:
 
                 case 7:
-
+                    upInv();
+                    break;
                 case 8:
                     upDELI();
                     break;
@@ -159,7 +162,7 @@ public class Input {
 
     }
 
-    // 설비조회
+    // 설비조회 - - - - - ★ - - - - - ★ - - - - - ★ - - - - - ★ - - - - - ★
     public void SeqTotalList() {
         System.out.println("조회할 설비 및 공정을 선택해 주세요");
         System.out.println("[1]설비상세(SEQ) [2]설비로그(FDCLOG) [3]설비이상감지이력(FDCFAULT) [4](설비공정)PROC");
@@ -185,6 +188,9 @@ public class Input {
                 break;
         }
     }
+
+
+
 
     public void cwr() {
         List<ComWorkOrder> comWorkOrders = memberDao.findComWorkOrder();
@@ -576,10 +582,85 @@ public class Input {
         LocalDate update_date2 = LocalDate.parse(dateInput2, formatter);
         wo.setOrderdate(update_date);
 
+        System.out.print("변경할 비고를 입력해주세요: ");
+        String newnote = sc.nextLine();
+        wo.setNote(newnote);
+
         boolean isSuccess = memberDao.updateWo(wo);
         System.out.println("작업지시 정보 수정 : " + (isSuccess ? "성공" : "실패"));
     }
 
+    // 설비 및 공정  [1] 설비상세 수정
+    public void upSeq(){
+        System.out.println("======= 설비 상세 수정 =======");
+        System.out.println("수정할 설비번호를 입력하세요.");
+        System.out.print("입력 : ");
+        String c = sc.nextLine(); // 설비"번호"이긴 한데 번호가 100-1 <- 요따구라 String으로 받아야됨
+        sc.nextLine();
+
+        Seq seq = new Seq();
+        seq.setSeqno(c);
+
+        System.out.print("변경할 설비명을 입력해주세요: ");
+        String newseqname = sc.nextLine();
+        seq.setSeqname(newseqname);
+
+        System.out.print("변경할 비고를 입력해주세요: ");
+        String newnote = sc.nextLine();
+        seq.setNote(newnote);
+
+        boolean isSuccess = memberDao.updateSeq(seq);
+        System.out.println("설비상세 정보 수정 : " + (isSuccess ? "성공" : "실패"));
+    }
+
+    // 설비 및 공정 [4] 설비 공정 수정
+    public void upProc(){
+        System.out.println("======= 설비 공정 수정 =======");
+        System.out.println("수정할 공정번호를 입력하세요.");
+        System.out.print("입력 : ");
+        int c = sc.nextInt();
+        sc.nextLine();
+
+        Proc proc = new Proc();
+        proc.setProcno(c);
+
+        System.out.print("변경할 공정명을 입력해주세요: ");
+        String newprocname = sc.nextLine();
+        proc.setProcname(newprocname);
+
+        boolean isSuccess = memberDao.updateProc(proc);
+        System.out.println("설비공정 정보 수정 : " + (isSuccess ? "성공" : "실패"));
+    }
+
+    // 재고상태수정
+    public void upInv(){
+        System.out.println("======= 재고상태 수정 =======");
+        System.out.println("수정할 재고번호를 입력하세요.");
+        System.out.print("입력 : ");
+        int c = sc.nextInt();
+        sc.nextLine();
+
+        Inv inv = new Inv();
+        inv.setInvno(c);
+
+        System.out.print("변경할 수량을 입력해주세요: ");
+        int newqty = sc.nextInt();
+        inv.setQty(newqty);
+
+        System.out.print("변경할 위치를 입력해주세요: ");
+        String newlocation = sc.nextLine();
+        inv.setLocation(newlocation);
+        sc.nextLine();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        System.out.print("변경할 수정일자를 입력해주세요(DD/MM/YY): ");
+        String dateInput = sc.nextLine();
+        LocalDate update_date = LocalDate.parse(dateInput, formatter);
+        inv.setUpdate_date(update_date);
+
+        boolean isSuccess = memberDao.updateInv(inv);
+        System.out.println("재고상태 정보 수정 : " + (isSuccess ? "성공" : "실패"));
+    }
 
     // 출고정보 수정
     public void upDELI(){

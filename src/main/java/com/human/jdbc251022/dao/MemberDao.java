@@ -507,6 +507,23 @@ public class MemberDao {
         return result > 0;
     }
 
+    // 재고상태 수정
+    public boolean updateInv(Inv inv) {
+        String sql = "UPDATE MES_INV_TABLE SET QTY = ?, LOCATION = ?, UPDATE_DATE = ? WHERE INVNO = ?";
+        int result = 0;
+
+        try {
+            result = jdbcTemplate.update(sql,
+                    inv.getQty(),
+                    inv.getLocation(),
+                    inv.getUpdate_date(),
+                    inv.getInvno()
+            );
+        } catch (Exception e) {
+            log.error("재고상태 수정 실패 : {}", e.getMessage());
+        }
+        return result > 0;
+    }
 
     // 출고 수정
     // 출고기록수정 DELI
