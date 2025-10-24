@@ -490,6 +490,7 @@ public class Input {
         System.out.println("사원 정보 수정 : " + (isSuccess ? "성공" : "실패"));
     }
 
+
     // 출고정보 수정
     public void upDELI(){
         System.out.println("======= 출고정보 수정 =======");
