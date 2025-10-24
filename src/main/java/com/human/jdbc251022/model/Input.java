@@ -129,7 +129,8 @@ public class Input {
                     upDept();
                     break;
                 case 2:
-
+                    upEmp();
+                    break;
                 case 3:
 
                 case 4:
@@ -243,7 +244,7 @@ public class Input {
         int deptno = sc.nextInt();
         sc.nextLine();
 
-        System.out.print("부서이름: ");
+        System.out.print("부서명: ");
         String deptname = sc.nextLine();
 
         iDept idetp = new iDept(deptno, deptname);
@@ -452,11 +453,41 @@ public class Input {
         idept.setDeptno(c);
 
         boolean isSuccess = false;
-        System.out.print("새로운 부서이름을 입력해주세요: ");
+        System.out.print("새로운 부서명을 입력해주세요: ");
         String newDeptname = sc.nextLine();
         idept.setDeptname(newDeptname);
         isSuccess = memberDao.updateDept(idept);
         System.out.println("부서 정보 수정 : " + (isSuccess ? "성공" : "실패"));
+    }
+
+    // 사원 수정 - - - - - ★ - - - - - ★ - - - - - ★ - - - - - ★ - - - - - 오류 !!
+    public void upEmp(){
+        System.out.println("======= 사원정보 수정 =======");
+        System.out.println("수정할 사원의 사원번호를 입력하세요.");
+        System.out.print("입력 : ");
+        int c = sc.nextInt();
+        sc.nextLine();
+
+        Emp emp = new Emp();
+        emp.setEmpno(c);
+
+        System.out.print("새로운 사원 이름을 입력해주세요: ");
+        String newename = sc.nextLine();
+        sc.nextLine();
+        emp.setEname(newename);
+
+        System.out.print("새로운 직책을 입력해주세요: ");
+        String newjob = sc.nextLine();
+        emp.setJob(newjob);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        System.out.print("새로운 입사일을 입력해주세요(DD/MM/YY): ");
+        String dateInput = sc.nextLine();
+        LocalDate update_date = LocalDate.parse(dateInput, formatter);
+        emp.setHiredate(update_date);
+
+        boolean isSuccess = memberDao.updateEmp(emp);
+        System.out.println("사원 정보 수정 : " + (isSuccess ? "성공" : "실패"));
     }
 
 
