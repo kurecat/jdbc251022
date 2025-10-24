@@ -3,9 +3,11 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+public class totaltable {
+}
 
-public class Dept {
+@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+class Dept {
     private int empno;
     private int deptno;
     private String ename;
@@ -152,7 +154,6 @@ class Perf {
 }
 
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
-// ---- [4] 설비 공정 조회 ----
 class Proc {
     private int procno; // 공정번호
     private String seqno; // 공정순서
@@ -179,6 +180,7 @@ class Prod {
                 "단위: " + unit;
     }
 }
+
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 class Seq {
     private String seqno; // 설비번호
@@ -193,8 +195,8 @@ class Seq {
                 "비고: " + note + "\n";
     }
 }
+
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
-// ---- 작업지시조회 ----
 class Wo {
     private int wono; // 작업지시번호
     private int prodno; // 제품번호
@@ -212,5 +214,33 @@ class Wo {
                 "완료 예정일: " + duedate + "\n" +
                 "수량: " + qty + "\n" +
                 "비고: " + note + "\n";
+    }
+}
+
+@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+class iDept {
+    private int deptno;
+    private String deptname;
+
+    public String toString() {
+        return "부서번호: " + deptno +  " / 부서이름: " + deptname + "\n";
+    }
+}
+
+@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+class ComWorkOrder {
+    private String wono;       // 작업지시번호
+    private String prodName;   // 제품명
+    private int qty;           // 목표수량
+    private String orderDate;  // 지시일 (YY-MM-DD 형식의 문자열)
+    private String dueDate;    // 완료예정일 (YY-MM-DD 형식의 문자열)
+
+
+    public String toString() {
+        return wono + "\n" +
+                prodName + "\n" +
+                qty + "\n" +
+                orderDate + "\n" +
+                dueDate + "\n";
     }
 }

@@ -17,7 +17,7 @@ public class ConsoleRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         while (true){
             System.out.println("===== MES DB =====");
-            System.out.println("[1]제품관리 [2]생산관리 [3]품질관리 [4]설비/공정관리 [5]자재관리 [6]부서/사원관리 [0]종료");
+            System.out.println("[1]작업관리 [2]품질관리 [3]설비/공정관리 [4]입/출고관리 [5]제품/재고관리 [6]사원/부서관리 [0]종료");
             System.out.print("입럭 : ");
             int c = sc.nextInt();
             sc.nextLine();
@@ -31,13 +31,12 @@ public class ConsoleRunner implements CommandLineRunner {
                 case 4:
                     break;
                 case 5:
+                    totalInput.prodInvTotalInput();
                     break;
                 case 6:
-                    totalInput.empdepttotalinput();
+                    totalInput.empDeptTotalInput();
                     break;
-                case 7:
-                    break;
-                case 0: return;
+                case 0: System.exit(0);
 
             }
         }
