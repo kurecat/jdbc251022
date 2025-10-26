@@ -23,10 +23,12 @@ public class ConsoleRunner implements CommandLineRunner {
             sc.nextLine();
             switch (c) {
                 case 1:
+                    totalInput.woPerfTotalInput();
                     break;
                 case 2:
                     break;
                 case 3:
+                    totalInput.seqFdcLogFdcFaultCProcTotalInput();
                     break;
                 case 4:
                     break;
