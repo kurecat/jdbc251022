@@ -117,6 +117,13 @@ class Inv {
     private String location; // 위치
     private LocalDate update_date; // 수정일자
 
+    public Inv(int invno, LocalDate update_date) {
+        this.invno = invno;
+        this.update_date = update_date;
+    }
+
+
+
     public String toString() {
         return "재고번호: " + invno + "\n" +
                 "제품번호: " + prodno + "\n" +

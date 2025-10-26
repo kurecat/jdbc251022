@@ -31,6 +31,7 @@ public class ConsoleRunner implements CommandLineRunner {
                     totalInput.seqFdcLogFdcFaultCProcTotalInput();
                     break;
                 case 4:
+
                     break;
                 case 5:
                     totalInput.prodInvTotalInput();

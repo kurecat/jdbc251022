@@ -1162,13 +1162,107 @@ public class TotalInput {
         }
     }
 
+    public void invDeliTotalInput() {
+        while (true) {
+            System.out.println("[1]제품 입고 [2]재고 조회 [9]종료 [0]뒤로가기");
+            System.out.print("입럭 : ");
+            int invc = sc.nextInt();
+            sc.nextLine();
+
+            switch (invc) {
+                case 1:
+
+                    break;
+                case 2:
+
+                    break;
+                case 9:
+                    System.out.println("프로그램을 종료합니다.");
+                    System.exit(0);
+                case 0:
+                    return;
+            }
+        }
+    }
+//    private void seqMenu() {
+//        while (true) {
+//            System.out.println("[1]설비 조회 [2]설비 등록 [3]설비 수정 [9]종료 [0]뒤로가기");
+//            System.out.print("입럭 : ");
+//            int woc = sc.nextInt(); //
+//            sc.nextLine();
+//
+//            switch (woc) {
+//                case 1:
+//                    seqc();
+//                    break;
+//                case 2:
+//                    regSeq();
+//                    break;
+//                case 3:
+//                    upSeq();
+//                    break;
+//                case 9:
+//                    System.out.println("프로그램을 종료합니다.");
+//                    System.exit(0);
+//                    break;
+//                case 0:
+//                    return;
+//            }
+//        }
+//    }
+//    private void FdcLogMenu() {
+//        while (true) {
+//            System.out.println("[1]설비 로그 조회 [9]종료 [0]뒤로가기");
+//            System.out.print("입럭 : ");
+//            int FdcLogc = sc.nextInt();
+//            sc.nextLine();
+//
+//            switch (FdcLogc) {
+//                case 1:
+//                    fdcLogc();
+//                    break;
+//                case 9:
+//                    System.out.println("프로그램을 종료합니다.");
+//                    System.exit(0);
+//                case 0:
+//                    return;
+//            }
+//        }
+//    }
+
+    public boolean insertinvprod(Inv inv) {
+        int result = 0;
+        String query = "INSERT INTO MES_DELI_TABLE(QTY, SYSDATE) VALUES(?, ?)";
+        try {
+            result = jdbcTemplate.update(query, inv.getQty());
+        } catch (Exception e) {
+            log.error("제품 등록 실패 : {}", e.getMessage());
+        }
+        return result > 0;
+    }
+    // 작업 지시 등록 input
+    public void reginvqty() {
+        System.out.println("======= 제품 입고 =======");
+        System.out.print("재고 번호: ");
+        int invno = sc.nextInt();
+        sc.nextLine();
+
+        Inv inv = new Inv(invno);
+
+        boolean inSuccess = insertWo(wo);
+        System.out.println("작업지시등록 : " + (inSuccess ? "성공" : "실패"));
+    }
 
 
 
 
 
     // 출고기록조회
-    public List<Deli> DeliList() {
+    public void delic(){
+        List<Deli> deliList = deliList();
+        for (Deli deli : deliList) System.out.println(deli);
+    }
+    public List<Deli> deliList() {
         String query = "SELECT * FROM MES_DELI_TABLE";
         return jdbcTemplate.query(query, new DeliRowMapper());
     }
@@ -1186,8 +1280,7 @@ public class TotalInput {
         }
     }
 
-
-    // 출고기록등록 DELI
+    // 출고기록등록 코드
     public boolean insertDeli(Deli deli) {
         int result = 0;
         String query = "INSERT INTO MES_DELI_TABLE(DELINO, INVNO, DELIQTY, LOC, DELIDATE, NOTE) VALUES(?, ?, ?, ?, ?, ?)";
@@ -1198,8 +1291,34 @@ public class TotalInput {
         }
         return result > 0;
     }
+    // 출고기록등록 input
+    public void regDeli() {
+        System.out.println("======= 출고기록 등록 =======");
+        System.out.print("출고번호: ");
+        int delino = sc.nextInt();
 
+        System.out.print("재고번호: ");
+        int invno = sc.nextInt();
 
+        System.out.print("출고수량: ");
+        int deliqty = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("도착지: ");
+        String loc = sc.nextLine();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        System.out.print("출고일자 (DD/MM/YY): ");
+        String dateInput = sc.nextLine();
+        LocalDate delidate = LocalDate.parse(dateInput, formatter);
+
+        System.out.print("메모: ");
+        String note = sc.nextLine();
+
+        Deli deli = new Deli(delino, invno, deliqty, loc, delidate, note);
+        boolean inSuccess = insertDeli(deli);
+        System.out.println("출고기록등록 : " + (inSuccess ? "성공" : "실패"));
+    }
 
     // 출고기록수정 DELI
     public boolean updateDeli(Deli deli) {
@@ -1261,34 +1380,7 @@ public class TotalInput {
 
 
 
-    // 출고기록등록
-    public void regDeli() {
-        System.out.println("======= 출고기록 등록 =======");
-        System.out.print("출고번호: ");
-        int delino = sc.nextInt();
 
-        System.out.print("재고번호: ");
-        int invno = sc.nextInt();
-
-        System.out.print("출고수량: ");
-        int deliqty = sc.nextInt();
-        sc.nextLine();
-
-        System.out.print("도착지: ");
-        String loc = sc.nextLine();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
-        System.out.print("출고일자 (DD/MM/YY): ");
-        String dateInput = sc.nextLine();
-        LocalDate delidate = LocalDate.parse(dateInput, formatter);
-
-        System.out.print("메모: ");
-        String note = sc.nextLine();
-
-        Deli deli = new Deli(delino, invno, deliqty, loc, delidate, note);
-        boolean inSuccess = insertDeli(deli);
-        System.out.println("출고기록등록 : " + (inSuccess ? "성공" : "실패"));
-    }
 
     // 출고 정보 수정
     public void upDELI(){
