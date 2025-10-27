@@ -23,7 +23,7 @@ public class TotalInput {
     }
 
     // 부서, 사원 Input
-    public void empDeptTotalInput(){
+    public void empDeptTotalInput() {
         while (true) {
             System.out.println("[1]사원관리 [2]부서관리 [0]뒤로가기");
             System.out.print("입럭 : ");
@@ -41,6 +41,7 @@ public class TotalInput {
             }
         }
     }
+
     private void empMenu() {
         while (true) {
             System.out.println("[1]사원 정보 조회 [2]사원 정보 등록 [3]사원 정보 수정 [4]사원 삭제 [9]종료 [0]뒤로가기");
@@ -71,6 +72,7 @@ public class TotalInput {
             }
         }
     }
+
     private void deptMenu() {
         while (true) {
             System.out.println("[1]부서 정보 조회 [2]부서 정보 등록 [3]부서 정보 수정 [0]뒤로가기");
@@ -96,14 +98,16 @@ public class TotalInput {
 
     //====================사원============================
     // 사원 조회
-    public void empc(){
+    public void empc() {
         List<Emp> memberList = EmpList();
         for (Emp emp : memberList) System.out.println(emp);
     }
+
     public List<Emp> EmpList() {
         String query = "SELECT * FROM MES_EMP_TABLE";
         return jdbcTemplate.query(query, new EmpRowMapper());
     }
+
     private static class EmpRowMapper implements RowMapper<Emp> {
         @Override
         public Emp mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -117,8 +121,9 @@ public class TotalInput {
             );
         }
     }
+
     // 사원 수정 input
-    public void upEmp(){
+    public void upEmp() {
         System.out.println("======= 사원정보 수정 =======");
         System.out.println("수정할 사원의 번호를 입력하세요.");
         System.out.print("입력 : ");
@@ -145,6 +150,7 @@ public class TotalInput {
         boolean isSuccess = updateEmp(emp);
         System.out.println("사원 정보 수정 : " + (isSuccess ? "성공" : "실패"));
     }
+
     // 사원 수정 코드
     public boolean updateEmp(Emp emp) {
         String sql = "UPDATE MES_EMP_TABLE SET " +
@@ -163,6 +169,7 @@ public class TotalInput {
         }
         return result > 0;
     }
+
     // 사원 등록 input
     public void regEmp() {
         System.out.println("======= 사원 등록 =======");
@@ -183,17 +190,18 @@ public class TotalInput {
         int mgr = sc.nextInt();
         sc.nextLine();
 
-        Emp emp = new Emp(empno ,deptno, ename, job, mgr);
+        Emp emp = new Emp(empno, deptno, ename, job, mgr);
 
-        boolean inSuccess =  insertEmp(emp);
+        boolean inSuccess = insertEmp(emp);
         System.out.println("사원 등록 : " + (inSuccess ? "성공" : "실패"));
     }
+
     // 등록 코드
     public boolean insertEmp(Emp emp) {
         int result = 0;
         String query = "INSERT INTO MES_EMP_TABLE(EMPNO, DEPTNO, ENAME, \"JOB\", HIREDATE, MGR) VALUES(?, ?, ?, ?, SYSDATE, ?)";
         try {
-            result = jdbcTemplate.update(query,emp.getEmpno(), emp.getDeptno(), emp.getEmpno(), emp.getJob(), emp.getMgr());
+            result = jdbcTemplate.update(query, emp.getEmpno(), emp.getDeptno(), emp.getEmpno(), emp.getJob(), emp.getMgr());
         } catch (Exception e) {
             log.error("사원 정보 등록 실패 : {}", e.getMessage());
         }
@@ -203,14 +211,16 @@ public class TotalInput {
 
     //====================부서============================
     // 부서 조회
-    public void deptc(){
+    public void deptc() {
         List<iDept> iDeptList = iDeptList();
         for (iDept iDept : iDeptList) System.out.print(iDept);
     }
-    public List<iDept> iDeptList(){
+
+    public List<iDept> iDeptList() {
         String query = "SELECT * FROM MES_DEPT_TABLE";
         return jdbcTemplate.query(query, new ideptRowMapper());
     }
+
     private static class ideptRowMapper implements RowMapper<iDept> {
         @Override
         public iDept mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -222,7 +232,7 @@ public class TotalInput {
     }
 
     // 부서 수정 input
-    public void upDept(){
+    public void upDept() {
         System.out.println("======= 부서정보 수정 =======");
         System.out.println("수정할 부서의 번호를 입력하세요.");
         System.out.print("입력 : ");
@@ -239,6 +249,7 @@ public class TotalInput {
         isSuccess = updateDept(idept);
         System.out.println("부서 정보 수정 : " + (isSuccess ? "성공" : "실패"));
     }
+
     //부서 수정 코드
     public boolean updateDept(iDept idept) {
         String sql = "UPDATE MES_DEPT_TABLE SET deptname = ? WHERE DEPTNO = ?";
@@ -254,6 +265,7 @@ public class TotalInput {
         }
         return result > 0;
     }
+
     // 부서 등록 input
     public void regDept() {
         System.out.println("======= 부서 등록 =======");
@@ -268,8 +280,9 @@ public class TotalInput {
         boolean inSuccess = insertDept(idetp);
         System.out.println("제품 등록 : " + (inSuccess ? "성공" : "실패"));
     }
+
     // 부서 등록 코드
-    public boolean insertDept(iDept idept){
+    public boolean insertDept(iDept idept) {
         int result = 0;
         String query = "INSERT INTO MES_DEPT_TABLE(DEPTNO, DEPTNAME) VALUES(?, ?)";
         try {
@@ -301,6 +314,7 @@ public class TotalInput {
             }
         }
     }
+
     private void prodMenu() {
         while (true) {
             System.out.println("[1]제품 정보 조회 [2]제품 정보 등록 [3]제품 정보 수정 [9]종료 [0]뒤로가기");
@@ -327,9 +341,10 @@ public class TotalInput {
             }
         }
     }
+
     private void invMenu() {
         while (true) {
-            System.out.println("[1]재고 정보 조회 [2]재고 정보 등록 [3]재고 정보 수정 [0]뒤로가기");
+            System.out.println("[1]재고 정보 조회 [2]재고 정보 수정 [9]종료 [0]뒤로가기");
             System.out.print("입럭 : ");
             int invc = sc.nextInt();
             sc.nextLine();
@@ -339,11 +354,10 @@ public class TotalInput {
                     invc();
                     break;
                 case 2:
-                    regInv();
-                    break;
-                case 3:
                     upInv();
                     break;
+                case 9:
+                    System.exit(0);
                 case 0:
                     return; // "뒤로가기" (handleInventoryMenu 메서드를 종료하고 메인 메뉴로 복귀)
             }
@@ -351,14 +365,16 @@ public class TotalInput {
     }
 
     //====================제품============================
-    public void prodc(){
+    public void prodc() {
         List<Prod> prodList = ProdList();
         for (Prod prod : prodList) System.out.print(prod);
     }
+
     public List<Prod> ProdList() {
         String query = "SELECT * FROM MES_PROD_TABLE";
         return jdbcTemplate.query(query, new ProdRowMapper());
     }
+
     private static class ProdRowMapper implements RowMapper<Prod> {
         @Override
         public Prod mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -370,6 +386,7 @@ public class TotalInput {
             );
         }
     }
+
     // 제품 등록 코드
     public boolean insertProd(Prod prod) {
         int result = 0;
@@ -381,6 +398,7 @@ public class TotalInput {
         }
         return result > 0;
     }
+
     // 제품 등록 input
     public void regProd() {
         System.out.println("======= 제품 등록 =======");
@@ -400,9 +418,10 @@ public class TotalInput {
 
         Prod prod = new Prod(prodno, prodname, spce, unit);
 
-        boolean inSuccess =  insertProd(prod);
+        boolean inSuccess = insertProd(prod);
         System.out.println("제품 등록 : " + (inSuccess ? "성공" : "실패"));
     }
+
     // 제품 수정 코드
     public boolean updateProd(Prod prod) {
         String sql = "UPDATE MES_PROD_TABLE SET PRODNAME = ?, SPCE = ?, UNIT = ? WHERE PRODNO = ?";
@@ -420,8 +439,9 @@ public class TotalInput {
         }
         return result > 0;
     }
+
     // 제품 수정 input
-    public void upProd(){
+    public void upProd() {
         System.out.println("======= 제품정보 수정 =======");
         System.out.println("수정할 제품의 번호를 입력하세요.");
         System.out.print("입력 : ");
@@ -449,14 +469,16 @@ public class TotalInput {
     //===================================================
 
     // 재고상태 조회
-    public void invc(){
+    public void invc() {
         List<Inv> invList = InvList();
         for (Inv inv : invList) System.out.println(inv);
     }
+
     public List<Inv> InvList() {
         String query = "SELECT * FROM MES_INV_TABLE";
         return jdbcTemplate.query(query, new InvRowMapper());
     }
+
     private static class InvRowMapper implements RowMapper<Inv> {
         @Override
         public Inv mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -481,13 +503,14 @@ public class TotalInput {
         }
         return result > 0;
     }
+
     // 재고상태 등록 input
     public void regInv() {
-        System.out.println("======= 재고상태 등록 =======");
+        System.out.println("======= 제품 입고 =======");
         System.out.print("재고번호: ");
         int invno = sc.nextInt();
 
-        System.out.print("재고번호: ");
+        System.out.print("제펌번호: ");
         int prodno = sc.nextInt();
 
         System.out.print("수량: ");
@@ -523,8 +546,9 @@ public class TotalInput {
         }
         return result > 0;
     }
+
     // 재고상태 수정 input
-    public void upInv(){
+    public void upInv() {
         System.out.println("======= 재고정보 수정 =======");
         System.out.println("수정할 재고의 번호를 입력하세요.");
         System.out.print("입력 : ");
@@ -571,6 +595,7 @@ public class TotalInput {
             }
         }
     }
+
     private void woMenu() {
         while (true) {
             System.out.println("[1]작업 지시 조회 [2]작업 지시 등록 [3]작업 지시 수정 [4]작업 지시 삭제 [9]종료 [0]뒤로가기");
@@ -597,6 +622,7 @@ public class TotalInput {
             }
         }
     }
+
     private void perfMenu() {
         while (true) {
             System.out.println("[1]작업 실적 조회 [2]작업 실적 등록 [3]작업 실적 수정 [9]종료 [0]뒤로가기");
@@ -624,14 +650,16 @@ public class TotalInput {
     }
 
     // 작업 지시 조회
-    public void woc(){
+    public void woc() {
         List<Wo> woList = WoList();
         for (Wo wo : woList) System.out.println(wo);
     }
+
     public List<Wo> WoList() {
         String query = "SELECT * FROM MES_WO_TABLE";
         return jdbcTemplate.query(query, new WoRowMapper());
     }
+
     private static class WoRowMapper implements RowMapper<Wo> {
         @Override
         public Wo mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -646,6 +674,7 @@ public class TotalInput {
             );
         }
     }
+
     // 작업 지시 등록 코드
     public boolean insertWo(Wo wo) {
         int result = 0;
@@ -657,6 +686,7 @@ public class TotalInput {
         }
         return result > 0;
     }
+
     // 작업 지시 등록 input
     public void regWo() {
         System.out.println("======= 작업 지시 등록 =======");
@@ -694,12 +724,13 @@ public class TotalInput {
         boolean inSuccess = insertWo(wo);
         System.out.println("작업지시등록 : " + (inSuccess ? "성공" : "실패"));
     }
+
     // 작업 지시 수정 코드
     public boolean updateWo(Wo wo) {
         String sql = "UPDATE MES_WO_TABLE SET orderdate = ?, duedate = ?, qty = ?, note = ? WHERE wono = ?";
         int result = 0;
         try {
-            result = jdbcTemplate.update (sql,
+            result = jdbcTemplate.update(sql,
                     wo.getOrderdate(),
                     wo.getDuedate(),
                     wo.getQty(),
@@ -710,8 +741,9 @@ public class TotalInput {
         }
         return result > 0;
     }
+
     // 작업 지시 수정 input
-    public void upWo(){
+    public void upWo() {
         System.out.println("======= 작업지시 수정 =======");
         System.out.println("수정할 작업지시의 번호를 입력하세요.");
         System.out.print("입력 : ");
@@ -748,14 +780,16 @@ public class TotalInput {
 
 
     // 작업 실적 조회
-    public void perfc(){
+    public void perfc() {
         List<Perf> perfList = PerfList();
         for (Perf perf : perfList) System.out.println(perf);
     }
+
     public List<Perf> PerfList() {
         String query = "SELECT * FROM MES_PERF_TABLE";
         return jdbcTemplate.query(query, new PerfRowMapper());
     }
+
     private static class PerfRowMapper implements RowMapper<Perf> {
         @Override
         public Perf mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -785,6 +819,7 @@ public class TotalInput {
         }
         return result > 0;
     }
+
     // 작업 실적 등록 input
     public void regPerf() {
         System.out.println("======= 작업 실적 등록 =======");
@@ -851,8 +886,9 @@ public class TotalInput {
         }
         return result > 0;
     }
+
     // 작업 실적 수정 input
-    public void upPerf(){
+    public void upPerf() {
         System.out.println("======= 작업실적 수정 =======");
         System.out.println("수정할 작업실적의 번호를 입력하세요.");
         System.out.print("입력 : ");
@@ -925,6 +961,7 @@ public class TotalInput {
             }
         }
     }
+
     private void seqMenu() {
         while (true) {
             System.out.println("[1]설비 조회 [2]설비 등록 [3]설비 수정 [9]종료 [0]뒤로가기");
@@ -951,6 +988,7 @@ public class TotalInput {
             }
         }
     }
+
     private void FdcLogMenu() {
         while (true) {
             System.out.println("[1]설비 로그 조회 [9]종료 [0]뒤로가기");
@@ -970,6 +1008,7 @@ public class TotalInput {
             }
         }
     }
+
     private void FdcFaultMenu() {
         while (true) {
             System.out.println("[1]설비 이상 감지 조회 [9]종료 [0]뒤로가기");
@@ -989,6 +1028,7 @@ public class TotalInput {
             }
         }
     }
+
     private void ProcNoMenu() {
         while (true) {
             System.out.println("[1]설비 이상 감지 조회 [9]종료 [0]뒤로가기");
@@ -1011,14 +1051,16 @@ public class TotalInput {
 
 
     // 설비 및 공정 조회 - [1] 설비 조회
-    public void seqc(){
+    public void seqc() {
         List<Seq> seqList = SeqList();
         for (Seq seq : seqList) System.out.println(seq);
     }
+
     public List<Seq> SeqList() {
         String query = "SELECT * FROM MES_SEQ_TABLE";
         return jdbcTemplate.query(query, new SeqRowMapper());
     }
+
     private static class SeqRowMapper implements RowMapper<Seq> {
         @Override
         public Seq mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -1042,6 +1084,7 @@ public class TotalInput {
         }
         return result > 0;
     }
+
     // 설비 및 공정 등록 - [1] SEQ 설비 등록 input
     public void regSeq() {
         System.out.println("======= 설비 상세 등록 =======");
@@ -1080,12 +1123,13 @@ public class TotalInput {
         }
         return result > 0;
     }
+
     // 설비 및 공정 수정 [1] - 설비 수정 input
-    public void upSeq(){
+    public void upSeq() {
         System.out.println("======= 설비관리 수정 =======");
         System.out.println("수정할 작업지시의 번호를 입력하세요.");
         System.out.print("입력 : ");
-        String  c = sc.nextLine();
+        String c = sc.nextLine();
 
         Seq seq = new Seq();
         seq.setSeqno(c);
@@ -1099,14 +1143,16 @@ public class TotalInput {
     }
 
     // 설비 및 공정 조회 - [2] 설비로그조회
-    public void fdcLogc(){
+    public void fdcLogc() {
         List<Fdclog> fdclogList = FdclogList();
         for (Fdclog fdclog : fdclogList) System.out.println(fdclog);
     }
+
     public List<Fdclog> FdclogList() {
         String query = "SELECT * FROM MES_FDCLOG_TABLE";
         return jdbcTemplate.query(query, new FdclogRowMapper());
     }
+
     private static class FdclogRowMapper implements RowMapper<Fdclog> {
         @Override
         public Fdclog mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -1119,15 +1165,18 @@ public class TotalInput {
             );
         }
     }
+
     // 설비 및 공정 조회 - [3] 설비이상감지이력조회
-    public void fdcfaultc(){
+    public void fdcfaultc() {
         List<Fdcfault> fdcfaultList = FdcfaultList();
         for (Fdcfault fdcfault : fdcfaultList) System.out.println(fdcfault);
     }
+
     public List<Fdcfault> FdcfaultList() {
         String query = "SELECT * FROM MES_FDCFAULT_TABLE";
         return jdbcTemplate.query(query, new FdcfaultRowMapper());
     }
+
     private static class FdcfaultRowMapper implements RowMapper<Fdcfault> {
         @Override
         public Fdcfault mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -1143,7 +1192,7 @@ public class TotalInput {
     }
 
     // 설비 및 공정 조회 - [4] 설비 공정 조회
-    public void procc(){
+    public void procc() {
         List<Proc> procList = procList();
         for (Proc proc : procList) System.out.println(proc);
     }
@@ -1162,19 +1211,24 @@ public class TotalInput {
         }
     }
 
+
+
+
+
+
     public void invDeliTotalInput() {
         while (true) {
-            System.out.println("[1]제품 입고 [2]재고 조회 [9]종료 [0]뒤로가기");
+            System.out.println("[1]입고 관리 [2]출고 관리 [9]종료 [0]뒤로가기");
             System.out.print("입럭 : ");
             int invc = sc.nextInt();
             sc.nextLine();
 
             switch (invc) {
                 case 1:
-
+                    inv4Menu();
                     break;
                 case 2:
-
+                    deliMenu();
                     break;
                 case 9:
                     System.out.println("프로그램을 종료합니다.");
@@ -1184,81 +1238,58 @@ public class TotalInput {
             }
         }
     }
-//    private void seqMenu() {
-//        while (true) {
-//            System.out.println("[1]설비 조회 [2]설비 등록 [3]설비 수정 [9]종료 [0]뒤로가기");
-//            System.out.print("입럭 : ");
-//            int woc = sc.nextInt(); //
-//            sc.nextLine();
-//
-//            switch (woc) {
-//                case 1:
-//                    seqc();
-//                    break;
-//                case 2:
-//                    regSeq();
-//                    break;
-//                case 3:
-//                    upSeq();
-//                    break;
-//                case 9:
-//                    System.out.println("프로그램을 종료합니다.");
-//                    System.exit(0);
-//                    break;
-//                case 0:
-//                    return;
-//            }
-//        }
-//    }
-//    private void FdcLogMenu() {
-//        while (true) {
-//            System.out.println("[1]설비 로그 조회 [9]종료 [0]뒤로가기");
-//            System.out.print("입럭 : ");
-//            int FdcLogc = sc.nextInt();
-//            sc.nextLine();
-//
-//            switch (FdcLogc) {
-//                case 1:
-//                    fdcLogc();
-//                    break;
-//                case 9:
-//                    System.out.println("프로그램을 종료합니다.");
-//                    System.exit(0);
-//                case 0:
-//                    return;
-//            }
-//        }
-//    }
+    private void inv4Menu() {
+        while (true) {
+            System.out.println("[1]제품 입고 [2]재고 조회 [9]종료 [0]뒤로가기");
+            System.out.print("입럭 : ");
+            int woc = sc.nextInt(); //
+            sc.nextLine();
 
-    public boolean insertinvprod(Inv inv) {
-        int result = 0;
-        String query = "INSERT INTO MES_DELI_TABLE(QTY, SYSDATE) VALUES(?, ?)";
-        try {
-            result = jdbcTemplate.update(query, inv.getQty());
-        } catch (Exception e) {
-            log.error("제품 등록 실패 : {}", e.getMessage());
+            switch (woc) {
+                case 1:
+                    regInv();
+                    break;
+                case 2:
+                    invc();
+                    break;
+                case 9:
+                    System.out.println("프로그램을 종료합니다.");
+                    System.exit(0);
+                    break;
+                case 0:
+                    return;
+            }
         }
-        return result > 0;
     }
-    // 작업 지시 등록 input
-    public void reginvqty() {
-        System.out.println("======= 제품 입고 =======");
-        System.out.print("재고 번호: ");
-        int invno = sc.nextInt();
-        sc.nextLine();
+    private void deliMenu() {
+        while (true) {
+            System.out.println("[1]제품 출고 등록 [2]제품 출고 조회 [3]제품 출고 삭제 [9]종료 [0]뒤로가기");
+            System.out.print("입럭 : ");
+            int woc = sc.nextInt(); //
+            sc.nextLine();
 
-        Inv inv = new Inv(invno);
+            switch (woc) {
+                case 1:
+                    regDeli();
+                    break;
+                case 2:
+                    delic();
+                    break;
+                case 3:
 
-        boolean inSuccess = insertWo(wo);
-        System.out.println("작업지시등록 : " + (inSuccess ? "성공" : "실패"));
+                    break;
+                case 9:
+                    System.out.println("프로그램을 종료합니다.");
+                    System.exit(0);
+                    break;
+                case 0:
+                    return;
+            }
+        }
     }
-
-
-
-
 
     // 출고기록조회
-    public void delic(){
+    public void delic() {
         List<Deli> deliList = deliList();
         for (Deli deli : deliList) System.out.println(deli);
     }
@@ -1279,7 +1310,6 @@ public class TotalInput {
             );
         }
     }
-
     // 출고기록등록 코드
     public boolean insertDeli(Deli deli) {
         int result = 0;
@@ -1320,43 +1350,24 @@ public class TotalInput {
         System.out.println("출고기록등록 : " + (inSuccess ? "성공" : "실패"));
     }
 
-    // 출고기록수정 DELI
-    public boolean updateDeli(Deli deli) {
-        String sql = "UPDATE MES_DELI_TABLE SET DELIQTY = ?, LOC = ?, DELIDATE = ?, NOTE = ? WHERE DELINO = ?";
-        int result = 0;
-
-        try {
-            result = jdbcTemplate.update(sql,
-                    deli.getQty(),
-                    deli.getLoc(),
-                    deli.getDelidate(),
-                    deli.getNote(),
-                    deli.getDelino()
-            );
-        } catch (Exception e) {
-            log.error("출고기록수정 실패 : {}", e.getMessage());
-        }
-        return result > 0;
-    }
-
 
     // 완료된 작업 찾기 쿼리문
     public List<ComWorkOrder> findComWorkOrder() {
         String query = """
-        SELECT
-            W.WONO AS "작업지시번호",
-            P.PRODNAME AS "제품명",
-            W.QTY AS "목표수량",
-            TO_CHAR(W.ORDERDATE, 'YY-MM-DD') AS "지시일",
-            TO_CHAR(W.DUEDATE, 'YY-MM-DD') AS "완료예정일"
-        FROM
-            MES_WO_TABLE W
-        JOIN
-            MES_PROD_TABLE P ON W.PRODNO = P.PRODNO
-        WHERE
-            W.NOTE LIKE '%달성%'
-        ORDER BY W.WONO
-        """;
+                SELECT
+                    W.WONO AS "작업지시번호",
+                    P.PRODNAME AS "제품명",
+                    W.QTY AS "목표수량",
+                    TO_CHAR(W.ORDERDATE, 'YY-MM-DD') AS "지시일",
+                    TO_CHAR(W.DUEDATE, 'YY-MM-DD') AS "완료예정일"
+                FROM
+                    MES_WO_TABLE W
+                JOIN
+                    MES_PROD_TABLE P ON W.PRODNO = P.PRODNO
+                WHERE
+                    W.NOTE LIKE '%달성%'
+                ORDER BY W.WONO
+                """;
 
         return jdbcTemplate.query(query, new CompletedWorkOrderRowMapper());
     }
@@ -1379,40 +1390,72 @@ public class TotalInput {
 
 
 
+    // 불량률 5퍼이상 조회
+    public void perfdateTotalInput() {
+        while (true) {
+            System.out.println("[1]불량률 5% 이상 조회 [9]종료 [0]뒤로가기");
+            System.out.print("입럭 : ");
+            int perfdatec = sc.nextInt();
+            sc.nextLine();
 
+            switch (perfdatec) {
+                case 1:
+                    perfdatec();
+                    break;
+                case 9:
+                    System.out.println("프로그램을 종료합니다.");
+                    System.exit(0);
+                case 0:
+                    return;
+            }
+        }
+    }
+    public void perfdatec() {
+        List<PerfData> perfDataList = perfDataList();
+        for (PerfData perfData : perfDataList) System.out.println(perfData);
+    }
+    public List<PerfData> perfDataList() {
+        String query = "SELECT " +
+                "    TO_CHAR(P.PERFDATE, 'YYYY-MM-DD') AS \"작업일\", " +
+                "    E.ENAME AS \"작업자\", " +
+                "    E.EMPNO AS \"사원번호\", " +
+                "    P.SEQNO AS \"설비번호\", " +
+                "    PR.PRODNAME AS \"제품명\", " +
+                "    P.QTY AS \"양품\", " +
+                "    P.QTYDEFECT AS \"불량\", " +
+                "    TO_CHAR(P.FARA, 'FM999999990.00') || '%' AS \"불량률\" " +
+                "FROM " +
+                "    MES_PERF_TABLE P " +
+                "JOIN " +
+                "    MES_EMP_TABLE E ON P.EMPNO = E.EMPNO " +
+                "JOIN " +
+                "    MES_WO_TABLE W ON P.WONO = W.WONO " +
+                "JOIN " +
+                "    MES_PROD_TABLE PR ON W.PRODNO = PR.PRODNO " +
+                "WHERE " +
+                "    P.FARA > 5";
 
-
-    // 출고 정보 수정
-    public void upDELI(){
-        System.out.println("======= 출고정보 수정 =======");
-        System.out.println("수정할 출고의 번호를 입력하세요.");
-        System.out.print("입력 : ");
-        int c = sc.nextInt();
-        sc.nextLine();
-
-        Deli deli = new Deli();
-        deli.setDelino(c);
-
-        System.out.print("새로운 수량을 입력해주세요: ");
-        int newqty = sc.nextInt();
-        sc.nextLine();
-        deli.setQty(newqty);
-
-        System.out.print("새로운 도착지를 입력해주세요: ");
-        String newloc = sc.nextLine();
-        deli.setLoc(newloc);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
-        System.out.print("새로운 출고일자를 입력해주세요(DD/MM/YY): ");
-        String dateInput = sc.nextLine();
-        LocalDate update_date = LocalDate.parse(dateInput, formatter);
-        deli.setDelidate(update_date);
-
-        System.out.print("새로운 비고를 입력해주세요: ");
-        String note = sc.nextLine();
-        deli.setNote(note);
-
-        boolean isSuccess = updateDeli(deli);
-        System.out.println("출고 정보 수정 : " + (isSuccess ? "성공" : "실패"));
+        return jdbcTemplate.query(query, new PerfDataRowMapper());
+    }
+    private static class PerfDataRowMapper implements RowMapper<PerfData> {
+        @Override
+        public PerfData mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new PerfData(
+                    rs.getDate("작업일").toLocalDate(),
+                    rs.getString("작업자"),
+                    rs.getInt("사원번호"),
+                    rs.getString("설비번호"),
+                    rs.getString("제품명"),
+                    rs.getInt("양품"),
+                    rs.getInt("불량"),
+                    rs.getString("불량률")
+            );
+        }
     }
 }
+
+
+
+
+
+

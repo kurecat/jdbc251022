@@ -251,3 +251,38 @@ class ComWorkOrder {
                 dueDate + "\n";
     }
 }
+
+@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+class PerfData {
+    private LocalDate perfDate; // 작업일
+    private String workerName;  // 작업자
+    private int empno;          // 사원번호
+    private String seqNo;       // 설비번호
+    private String prodName;    // 제품명
+    private int qty;            // 양품
+    private int qtyDefect;      // 불량
+    private String defectRate;  // 불량률
+
+
+    @Override
+    public String toString() {
+        return "작업일: " + perfDate + "\n" +
+                "작업자: " + workerName +  "\n" +
+                "사원번호: " + empno + "\n" +
+                "설비번호: " +  seqNo +  "\n" +
+                "제품명: " + prodName + "\n" +
+                "양품: " + qty + "\n" +
+                "불량: " + qtyDefect + "\n" +
+                "불량률" + defectRate + "\n";
+    }
+}
+
+//
+//        return "작업지시번호: " + wono + "\n" +
+//        "제품번호: " + prodno + "\n" +
+//        "공정번호: " + prodno + "\n" +
+//        "지시일자: " + orderdate + "\n" +
+//        "완료 예정일: " + duedate + "\n" +
+//        "수량: " + qty + "\n" +
+//        "비고: " + note + "\n";
+
