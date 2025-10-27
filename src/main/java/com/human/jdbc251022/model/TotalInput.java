@@ -60,9 +60,8 @@ public class TotalInput {
                     upEmp();
                     break;
                 case 4:
-                    // TODO: 4. 사원 삭제 로직 구현
-                    System.out.println("사원 삭제 기능 (구현 필요)");
-                    break; // ⬅️ 9번으로 넘어가지 않게 break 추가 (기존 코드 버그 수정)
+                    deleteEmp();
+                    break;
                 case 9:
                     System.out.println("프로그램을 종료합니다.");
                     System.exit(0); // 프로그램 즉시 종료
@@ -75,7 +74,7 @@ public class TotalInput {
 
     private void deptMenu() {
         while (true) {
-            System.out.println("[1]부서 정보 조회 [2]부서 정보 등록 [3]부서 정보 수정 [0]뒤로가기");
+            System.out.println("[1]부서 정보 조회 [2]부서 정보 등록 [3]부서 정보 수정 [9]종료 [0]뒤로가기");
             System.out.print("입럭 : ");
             int deptc = sc.nextInt();
             sc.nextLine();
@@ -89,6 +88,10 @@ public class TotalInput {
                     break;
                 case 3:
                     upDept();
+                    break;
+                case 9:
+                    System.out.println("프로그램을 종료합니다.");
+                    System.exit(0); // 프로그램 즉시 종료
                     break;
                 case 0:
                     return;
@@ -207,6 +210,48 @@ public class TotalInput {
         }
         return result > 0;
     }
+
+    // 사원 삭제
+    public boolean deleteEmp() {
+        int result = 0;
+        String sql = "SELECT * FROM MES_EMP_TABLE";
+        try {
+            List<Emp> list = jdbcTemplate.query(sql, (rs, rowNum) ->
+                    new Emp(
+                            rs.getInt(1),
+                            rs.getInt(2),
+                            rs.getString(3),
+                            rs.getString(4),
+                            rs.getDate(5).toLocalDate(),
+                            rs.getInt(6)
+                    )
+            );
+            System.out.println("사원ID\t사원명");
+            for (Emp emp : list) {
+                System.out.println(emp.getEmpno() + "\t" + emp.getEname());
+            }
+            if (list == null || list.isEmpty()) {
+                System.out.println("등록된 사원 정보가 없습니다.");
+                return false;
+            }
+            System.out.print("삭제할 사원ID를 입력해 주세요: ");
+            Scanner scn = new Scanner(System.in);
+            int inputId = 0;
+            inputId = scn.nextInt();
+
+            for (Emp emp : list) {
+                if(emp.getEmpno() == inputId) {
+                    sql = "DELETE MES_EMP_TABLE WHERE EMPNO = ?";
+                    result = jdbcTemplate.update(sql, inputId);
+                    System.out.println("삭제가 완료되었습니다.");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result > 0;
+    }
+
     //===================================================
 
     //====================부서============================
@@ -1211,11 +1256,6 @@ public class TotalInput {
         }
     }
 
-
-
-
-
-
     public void invDeliTotalInput() {
         while (true) {
             System.out.println("[1]입고 관리 [2]출고 관리 [9]종료 [0]뒤로가기");
@@ -1261,6 +1301,7 @@ public class TotalInput {
             }
         }
     }
+    // 제품출고관리
     private void deliMenu() {
         while (true) {
             System.out.println("[1]제품 출고 등록 [2]제품 출고 조회 [3]제품 출고 삭제 [9]종료 [0]뒤로가기");
@@ -1276,7 +1317,7 @@ public class TotalInput {
                     delic();
                     break;
                 case 3:
-
+                    deleteDeli();
                     break;
                 case 9:
                     System.out.println("프로그램을 종료합니다.");
@@ -1350,6 +1391,42 @@ public class TotalInput {
         System.out.println("출고기록등록 : " + (inSuccess ? "성공" : "실패"));
     }
 
+    // 출고 삭제
+
+    public boolean deleteDeli() {
+        Scanner scn =  new Scanner(System.in);
+        int result = 0;
+        String sql = "SELECT * FROM MES_DELI_TABLE";
+        try {
+            List<Deli> list = jdbcTemplate.query(sql, (rs, rowNum) ->
+                    new Deli(
+                            rs.getInt("DELINO"),
+                            rs.getInt("INVNO"),
+                            rs.getInt("DELIQTY"),
+                            rs.getString("LOC"),
+                            rs.getDate("DELIDATE").toLocalDate(),
+                            rs.getString("NOTE")
+                    )
+            );
+
+            System.out.println("출고ID\t재고ID\t출고수량\t도착지");
+            for (Deli deli : list) {
+                System.out.println(deli.getDelino() + "\t" + deli.getInvno() + "\t" + deli.getQty() + "\t" + deli.getLoc());
+            }
+
+            System.out.print("삭제할 출고ID(DELINO)를 입력해 주세요: ");
+            int inputId = Integer.parseInt(scn.nextLine());
+
+            sql = "DELETE FROM MES_DELI_TABLE WHERE DELINO = ?";
+            result = jdbcTemplate.update(sql, inputId);
+            System.out.println("출고 기록이 삭제되었습니다.");
+
+        } catch (Exception e) {
+            log.error("출고기록 삭제 중 오류: {}", e.getMessage());
+            e.printStackTrace();
+        }
+        return result > 0;
+    }
 
     // 완료된 작업 찾기 쿼리문
     public List<ComWorkOrder> findComWorkOrder() {
@@ -1387,8 +1464,6 @@ public class TotalInput {
         List<ComWorkOrder> comWorkOrders = findComWorkOrder();
         for (ComWorkOrder comWorkOrder : comWorkOrders) System.out.println(comWorkOrder);
     }
-
-
 
     // 불량률 5퍼이상 조회
     public void perfdateTotalInput() {
@@ -1453,9 +1528,3 @@ public class TotalInput {
         }
     }
 }
-
-
-
-
-
-
