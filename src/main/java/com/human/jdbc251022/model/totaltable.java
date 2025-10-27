@@ -276,13 +276,3 @@ class PerfData {
                 "불량률" + defectRate + "\n";
     }
 }
-
-//
-//        return "작업지시번호: " + wono + "\n" +
-//        "제품번호: " + prodno + "\n" +
-//        "공정번호: " + prodno + "\n" +
-//        "지시일자: " + orderdate + "\n" +
-//        "완료 예정일: " + duedate + "\n" +
-//        "수량: " + qty + "\n" +
-//        "비고: " + note + "\n";
-
