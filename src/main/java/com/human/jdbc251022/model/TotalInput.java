@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -643,7 +644,7 @@ public class TotalInput {
 
     private void woMenu() {
         while (true) {
-            System.out.println("[1]작업 지시 조회 [2]작업 지시 등록 [3]작업 지시 수정 [4]작업 지시 삭제 [9]종료 [0]뒤로가기");
+            System.out.println("[1]작업 지시 조회 [2]작업 지시 등록 [3]작업 지시 수정 [9]종료 [0]뒤로가기");
             System.out.print("입럭 : ");
             int woc = sc.nextInt(); //
             sc.nextLine();
@@ -705,6 +706,13 @@ public class TotalInput {
         return jdbcTemplate.query(query, new WoRowMapper());
     }
 
+    private static LocalDate convertTimestampToDate(Timestamp timestamp) {
+        if (timestamp == null) {
+            return null; // DB 값이 NULL이면 Java에서도 null을 반환
+        }
+        return timestamp.toLocalDateTime().toLocalDate();
+    }
+
     private static class WoRowMapper implements RowMapper<Wo> {
         @Override
         public Wo mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -712,8 +720,13 @@ public class TotalInput {
                     rs.getInt("WONO"),
                     rs.getInt("PRODNO"),
                     rs.getInt("PROCNO"),
-                    rs.getTimestamp("ORDERDATE").toLocalDateTime().toLocalDate(),
-                    rs.getTimestamp("DUEDATE").toLocalDateTime().toLocalDate(),
+
+                    // [수정됨] 헬퍼 메소드를 사용하여 Null-safe하게 변환
+                    convertTimestampToDate(rs.getTimestamp("ORDERDATE")),
+
+                    // [수정됨] 헬퍼 메소드를 사용하여 Null-safe하게 변환
+                    convertTimestampToDate(rs.getTimestamp("DUEDATE")),
+
                     rs.getInt("QTY"),
                     rs.getString("NOTE")
             );
@@ -1009,7 +1022,7 @@ public class TotalInput {
 
     private void seqMenu() {
         while (true) {
-            System.out.println("[1]설비 조회 [2]설비 등록 [3]설비 수정 [9]종료 [0]뒤로가기");
+            System.out.println("[1]설비 조회 [9]종료 [0]뒤로가기");
             System.out.print("입럭 : ");
             int woc = sc.nextInt(); //
             sc.nextLine();
@@ -1076,7 +1089,7 @@ public class TotalInput {
 
     private void ProcNoMenu() {
         while (true) {
-            System.out.println("[1]설비 이상 감지 조회 [9]종료 [0]뒤로가기");
+            System.out.println("[1]설비 공정 조회 [9]종료 [0]뒤로가기");
             System.out.print("입럭 : ");
             int ProcNoc = sc.nextInt();
             sc.nextLine();
